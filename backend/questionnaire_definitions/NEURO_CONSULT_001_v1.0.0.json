@@ -1,0 +1,852 @@
+{
+  "questionnaireId": "NEURO_CONSULT_001",
+  "version": "1.0.0",
+  "title": "Neurology Consultation - Initial Assessment (v1.0.0)",
+  "description": "A series of questions to understand your neurological symptoms or head-related problems.",
+  "illnessDomains": ["neurology"],
+  "questions": [
+    {
+      "id": "neuro_intro_clarification",
+      "text": "You've indicated a concern related to your head or neurological system. To start, could you briefly describe the main problem or symptom you're experiencing?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "headache", "label": "Headache" },
+        { "value": "dizziness_vertigo_imbalance", "label": "Dizziness, Vertigo, or Imbalance" },
+        { "value": "cognitive_behavioral", "label": "Changes in Thinking, Memory, or Behavior (e.g., 'Brain Fog')" },
+        { "value": "sensory_disturbances", "label": "Unusual Sensations (Numbness, Tingling - including facial)" },
+        { "value": "motor_symptoms", "label": "Movement Problems (Weakness, Tremor, Clumsiness, Gait issues - including facial)" },
+        { "value": "altered_consciousness_seizures", "label": "Episodes of Altered Consciousness, Seizures, or Fainting" },
+        { "value": "speech_swallowing", "label": "Difficulties with Speech or Swallowing" },
+        { "value": "visual_disturbances", "label": "Visual Disturbances" },
+        { "value": "other_neuro", "label": "Other head or neurological problem not listed" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s0_confirm", 
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "headache"}, "nextQuestionId": "neuro_hd_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "dizziness_vertigo_imbalance"}, "nextQuestionId": "neuro_diz_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "cognitive_behavioral"}, "nextQuestionId": "neuro_cog_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "sensory_disturbances"}, "nextQuestionId": "neuro_sen_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "motor_symptoms"}, "nextQuestionId": "neuro_mot_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "altered_consciousness_seizures"}, "nextQuestionId": "neuro_altc_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "speech_swallowing"}, "nextQuestionId": "neuro_spch_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "visual_disturbances"}, "nextQuestionId": "neuro_vis_s0_confirm" },
+        { "condition": {"type": "equals", "answerValue": "other_neuro"}, "nextQuestionId": "neuro_other_describe" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_other_describe",
+      "text": "Please describe the other head or neurological problem you are experiencing.",
+      "inputType": "textArea",
+      "isRequired": true,
+      "validation": { "maxLength": 1000 },
+      "defaultNextQuestionId": "neuro_redflag_s1_thunderclap",
+      "gdprSensitivity": "high"
+    },
+
+    {
+      "id": "neuro_hd_s0_confirm",
+      "text": "You mentioned your head problem is a headache. We'll now ask some detailed questions about these headaches. Is that correct?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_headache", "label": "Yes, my main issue is headache" },
+        { "value": "no_not_headache_primarily", "label": "No, headache is not my primary concern (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_headache"}, "nextQuestionId": "neuro_hd_s1_first_onset_date" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_hd_s1_first_onset_date",
+      "text": "When did you first start getting these headaches?",
+      "inputType": "date",
+      "validation": { "allowFutureDates": false },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s1a_first_onset_manner",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s1a_first_onset_manner",
+      "text": "Was the very first headache sudden or gradual in its onset?",
+      "inputType": "radio",
+      "options": [
+        { "value": "sudden", "label": "Sudden onset" },
+        { "value": "gradual", "label": "Gradual onset" },
+        { "value": "unsure", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s1b_first_onset_activity",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s1b_first_onset_activity",
+      "text": "What were you doing when the first significant headache started?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s2_frequency",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s2_frequency",
+      "text": "How often do you experience them?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "daily", "label": "Daily" },
+        { "value": "multiple_times_week", "label": "Multiple times a week" },
+        { "value": "once_week", "label": "About once a week" },
+        { "value": "few_times_month", "label": "A few times a month" },
+        { "value": "monthly", "label": "Monthly" },
+        { "value": "less_than_monthly", "label": "Less than monthly / Occasionally" },
+        { "value": "variable_frequency", "label": "Frequency is very variable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s2a_duration",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s2a_duration",
+      "text": "When you get a headache, how long does it typically last?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "seconds", "label": "Seconds" },
+        { "value": "minutes", "label": "Minutes (less than an hour)" },
+        { "value": "few_hours_1_4", "label": "A few hours (1-4 hours)" },
+        { "value": "half_day_4_12", "label": "Half a day (4-12 hours)" },
+        { "value": "most_of_day_12_24", "label": "Most of the day (12-24 hours)" },
+        { "value": "1_3_days", "label": "1 to 3 days" },
+        { "value": "more_than_3_days", "label": "More than 3 days / Continuous" },
+        { "value": "variable_duration", "label": "Duration is very variable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s2b_headache_free_periods",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s2b_headache_free_periods",
+      "text": "Are there periods when you are completely free of headaches?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_free", "label": "Yes" },
+        { "value": "no_never_free", "label": "No, I always have some level of headache" },
+        { "value": "rarely_free", "label": "Rarely free" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s3_location",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s3_location",
+      "text": "Where in your head do you feel the pain? (Select all that apply or the most prominent)",
+      "instructions": "E.g., one side, both sides, front, back, all over, behind eyes.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "one_side_unilateral", "label": "One side of the head (Unilateral)" },
+        { "value": "both_sides_bilateral", "label": "Both sides of the head (Bilateral)" },
+        { "value": "front_forehead_frontal", "label": "Front of the head / Forehead (Frontal)" },
+        { "value": "back_of_head_occipital", "label": "Back of the head (Occipital)" },
+        { "value": "temples_temporal", "label": "Temples (Temporal)" },
+        { "value": "all_over_holocranial", "label": "All over the head (Holocranial)" },
+        { "value": "behind_eyes_retro_orbital", "label": "Behind one or both eyes (Retro-orbital)" },
+        { "value": "band_like_around_head", "label": "Like a band around the head" },
+        { "value": "top_of_head_vertex", "label": "Top of the head (Vertex)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s3a_location_most_intense",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s3a_location_most_intense",
+      "text": "If you had to point with one finger to where the pain is usually most intense, where would that be?",
+      "inputType": "textInput",
+      "validation": { "maxLength": 150 },
+      "isRequired": false,
+      "defaultNextQuestionId": "neuro_hd_s4_character",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s4_character",
+      "text": "What does the headache pain feel like? (Select all that apply)",
+      "instructions": "E.g., throbbing, pressure, squeezing, stabbing, dull, burning.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "throbbing_pulsating", "label": "Throbbing or Pulsating" },
+        { "value": "pounding", "label": "Pounding" },
+        { "value": "pressure_sensation", "label": "Pressure / Tightness (like a band)" },
+        { "value": "squeezing", "label": "Squeezing" },
+        { "value": "stabbing_ice_pick", "label": "Stabbing / Sharp (like an ice pick)" },
+        { "value": "dull_ache", "label": "Dull ache" },
+        { "value": "burning_sensation", "label": "Burning sensation" },
+        { "value": "exploding_bursting", "label": "Exploding / Bursting" },
+        { "value": "other_character", "label": "Other" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s5_severity_worst",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s5_severity_worst",
+      "text": "On a scale of 0 (no pain) to 10 (worst pain imaginable), how would you rate the pain when it's at its worst?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "0", "label": "0 - No pain" }, { "value": "1", "label": "1" }, { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }, { "value": "7", "label": "7" }, { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" }, { "value": "10", "label": "10 - Worst pain imaginable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s5a_severity_average",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s5a_severity_average",
+      "text": "What is the pain like on an average day with the headache (0-10 scale)?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "n_a_no_average", "label": "Not applicable / No average headache" },
+        { "value": "0", "label": "0 - No pain" }, { "value": "1", "label": "1" }, { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }, { "value": "7", "label": "7" }, { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" }, { "value": "10", "label": "10 - Worst pain imaginable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s5b_severity_impact",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s5b_severity_impact",
+      "text": "Does the pain prevent you from doing your usual activities, or do you have to lie down?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_prevents_activities_lie_down", "label": "Yes, often prevents activities or I have to lie down" },
+        { "value": "sometimes_prevents_activities", "label": "Sometimes limits activities" },
+        { "value": "no_does_not_prevent_activities", "label": "No, I can usually continue my activities" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s6_radiation_q",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s6_radiation_q",
+      "text": "Does the headache pain spread anywhere else (e.g., to your neck, shoulders, or face)?",
+       "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s7_aggravating_factors",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "neuro_hd_s6a_radiation_location" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s6a_radiation_location",
+      "text": "Where does the pain radiate or spread to?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 300 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s7_aggravating_factors",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s7_aggravating_factors",
+      "text": "Is there anything that seems to bring the headache ON or make it WORSE? (Select all that apply)",
+      "instructions": "E.g. stress, foods/drinks, lack of sleep, noise, lights, physical activity, movements, time of day.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "stress_hd_aggravate", "label": "Stress" },
+        { "value": "specific_foods_drinks_hd_aggravate", "label": "Specific foods or drinks (e.g., caffeine, alcohol, chocolate, cheese)" },
+        { "value": "lack_of_sleep_hd_aggravate", "label": "Lack of sleep / Changes in sleep pattern" },
+        { "value": "too_much_sleep_hd_aggravate", "label": "Too much sleep" },
+        { "value": "noise_hd_aggravate", "label": "Noise" },
+        { "value": "bright_lights_hd_aggravate", "label": "Bright lights / Flickering lights" },
+        { "value": "physical_activity_hd_aggravate", "label": "Physical activity / Exertion" },
+        { "value": "specific_movements_hd_aggravate", "label": "Specific head movements / Bending over / Straining" },
+        { "value": "time_of_day_hd_aggravate", "label": "Certain times of day (e.g., morning, evening)" },
+        { "value": "weather_changes_hd_aggravate", "label": "Weather changes" },
+        { "value": "strong_smells_hd_aggravate", "label": "Strong smells / Perfumes" },
+        { "value": "menstrual_cycle_hd_aggravate", "label": "Related to menstrual cycle" },
+        { "value": "nothing_specific_hd_aggravate", "label": "Nothing specific seems to trigger it" },
+        { "value": "other_hd_aggravate", "label": "Other" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s8_relieving_factors",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s8_relieving_factors",
+      "text": "Is there anything that makes the headache BETTER? (Select all that apply)",
+      "instructions": "E.g. rest, dark quiet room, medication, specific positions.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "rest_sleep_hd_relieve", "label": "Rest or sleep" },
+        { "value": "dark_quiet_room_hd_relieve", "label": "Lying in a dark, quiet room" },
+        { "value": "otc_medication_hd_relieve", "label": "Over-the-counter medication (e.g., paracetamol, ibuprofen, aspirin)" },
+        { "value": "prescription_medication_hd_relieve", "label": "Prescription medication (please specify if known)" },
+        { "value": "cold_compress_hd_relieve", "label": "Cold compress / Ice pack" },
+        { "value": "warm_compress_hd_relieve", "label": "Warm compress / Heat pack" },
+        { "value": "massage_hd_relieve", "label": "Massage (e.g., temples, neck)" },
+        { "value": "caffeine_hd_relieve", "label": "Caffeine (e.g., coffee, tea)" },
+        { "value": "specific_positions_hd_relieve", "label": "Specific positions" },
+        { "value": "nothing_helps_hd_relieve", "label": "Nothing seems to help" },
+        { "value": "other_hd_relieve", "label": "Other" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s9_assoc_aura_q",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s9_assoc_aura_q",
+      "text": "Before the headache begins, do you experience any warning signs or unusual sensations (aura/prodrome)?",
+      "instructions": "E.g. visual changes (flashing lights, blind spots), numbness, tingling, weakness.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_aura", "label": "Yes" },
+        { "value": "no_aura", "label": "No" },
+        { "value": "unsure_aura", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s10_assoc_during_headache",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_aura"}, "nextQuestionId": "neuro_hd_s9a_assoc_aura_details" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_hd_s9a_assoc_aura_details",
+      "text": "Please describe these warning signs/aura. (Select all that apply or describe)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "visual_flashing_lights", "label": "Visual: Flashing lights, zig-zags, shimmering lines" },
+        { "value": "visual_blind_spots_scotoma", "label": "Visual: Blind spots or areas of lost vision (scotoma)" },
+        { "value": "visual_tunnel_vision", "label": "Visual: Tunnel vision" },
+        { "value": "sensory_numbness_tingling_aura", "label": "Sensory: Numbness or tingling (usually one side of face or limb)" },
+        { "value": "motor_weakness_aura", "label": "Motor: Weakness in a limb or on one side of the body" },
+        { "value": "speech_language_difficulty_aura", "label": "Speech/Language: Difficulty speaking or understanding" },
+        { "value": "dizziness_vertigo_aura", "label": "Dizziness or vertigo as part of aura" },
+        { "value": "other_aura_symptoms", "label": "Other aura symptoms" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s10_assoc_during_headache",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s10_assoc_during_headache",
+      "text": "When you have the headache, do you also experience any of the following? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "nausea_hd_assoc", "label": "Nausea" },
+        { "value": "vomiting_hd_assoc", "label": "Vomiting" },
+        { "value": "photophobia_light_sensitivity_hd_assoc", "label": "Sensitivity to light (Photophobia)" },
+        { "value": "phonophobia_sound_sensitivity_hd_assoc", "label": "Sensitivity to sound (Phonophobia)" },
+        { "value": "osmophobia_smell_sensitivity_hd_assoc", "label": "Sensitivity to smells (Osmophobia)" },
+        { "value": "visual_changes_blurring_double_hd_assoc", "label": "Changes in vision (e.g., blurring, seeing double)" },
+        { "value": "dizziness_hd_assoc", "label": "Dizziness / Lightheadedness" },
+        { "value": "numbness_tingling_hd_assoc", "label": "Numbness or tingling anywhere in the body" },
+        { "value": "weakness_hd_assoc", "label": "Weakness anywhere in the body" },
+        { "value": "fever_hd_assoc", "label": "Fever" },
+        { "value": "stiff_neck_hd_assoc", "label": "Stiff neck" },
+        { "value": "eye_watering_redness_unilateral_hd_assoc", "label": "Watering or redness of one eye" },
+        { "value": "nasal_congestion_runniness_unilateral_hd_assoc", "label": "Nasal congestion or runniness on one side" },
+        { "value": "eyelid_drooping_swelling_unilateral_hd_assoc", "label": "Eyelid drooping or swelling on one side" },
+        { "value": "facial_sweating_flushing_unilateral_hd_assoc", "label": "Facial sweating or flushing on one side" },
+        { "value": "restlessness_agitation_hd_assoc", "label": "Restlessness or agitation" },
+        { "value": "none_of_these_hd_assoc", "label": "None of these specific symptoms" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s11_progression",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s11_progression",
+      "text": "Have your headaches changed over time (e.g., become more frequent, more severe, or character changed)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s12_impact",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s12_impact",
+      "text": "How do these headaches affect your daily life (e.g., ability to work, sleep, mood)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_hd_s13_red_flag_worst_headache",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_hd_s13_red_flag_worst_headache",
+      "text": "Have you ever experienced a headache that you would describe as the 'worst headache of your life,' or one that came on very suddenly, like a clap of thunder?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_worst_thunderclap", "label": "Yes" },
+        { "value": "no_worst_thunderclap", "label": "No" },
+        { "value": "unsure_worst_thunderclap", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s0_confirm",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s0_confirm",
+      "text": "Next, we'll ask about dizziness, vertigo, or imbalance. Do you experience these types of sensations?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_dizziness", "label": "Yes, I experience dizziness/vertigo/imbalance" },
+        { "value": "no_dizziness", "label": "No, this is not an issue for me (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_cog_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_dizziness"}, "nextQuestionId": "neuro_diz_s1_clarification_what_is_dizzy" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_diz_s1_clarification_what_is_dizzy",
+      "text": "You've mentioned dizziness. Can you describe exactly what you feel when you say 'dizzy'? Please try to describe the sensation without using the word 'dizzy'.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s2_nature_of_sensation",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s2_nature_of_sensation",
+      "text": "Which of these best describes your sensation? (Select primary feeling or all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "spinning_vertigo", "label": "It feels like I am spinning, or the room is spinning around me (Vertigo)" },
+        { "value": "faint_presyncope", "label": "I feel as though I might pass out or faint (Lightheadedness/Presyncope)" },
+        { "value": "unsteady_disequilibrium", "label": "I feel unsteady on my feet, as if I might lose my balance and fall (Disequilibrium/Imbalance)" },
+        { "value": "woozy_swimming_head", "label": "It's more of a lightheaded, woozy, or swimming sensation in my head" },
+        { "value": "other_dizzy_sensation", "label": "Other sensation not listed" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s3_onset_when",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s3_onset_when",
+      "text": "When did this sensation (dizziness/vertigo/imbalance) first start?",
+      "inputType": "date",
+      "validation": { "allowFutureDates": false },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s3a_onset_manner",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_diz_s3a_onset_manner",
+      "text": "Did it come on suddenly, or did it develop gradually?",
+      "inputType": "radio",
+      "options": [
+        { "value": "sudden", "label": "Suddenly" },
+        { "value": "gradual", "label": "Gradually" },
+        { "value": "unsure", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s3b_onset_activity",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_diz_s3b_onset_activity",
+      "text": "What were you doing when it first occurred?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s4_frequency",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_diz_s4_frequency",
+      "text": "How often do you experience this sensation?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "daily_dizzy_freq", "label": "Daily or almost daily" },
+        { "value": "multiple_times_week_dizzy_freq", "label": "Multiple times a week" },
+        { "value": "weekly_dizzy_freq", "label": "About once a week" },
+        { "value": "monthly_dizzy_freq", "label": "A few times a month" },
+        { "value": "rarely_dizzy_freq", "label": "Rarely / Infrequently" },
+        { "value": "constant_dizzy_freq", "label": "It's a constant or near-constant sensation" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s4a_duration",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_diz_s4a_duration",
+      "text": "When an episode occurs, how long does it last?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "seconds_dizzy_duration", "label": "Seconds" },
+        { "value": "minutes_dizzy_duration", "label": "Minutes" },
+        { "value": "hours_dizzy_duration", "label": "Hours" },
+        { "value": "days_dizzy_duration", "label": "Days" },
+        { "value": "continuous_dizzy_duration", "label": "It's continuous or lasts for a very long time" },
+        { "value": "variable_dizzy_duration", "label": "Variable duration" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s5_triggers_positional",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_diz_s5_triggers_positional",
+      "text": "Does it happen with specific changes in your position, such as rolling over in bed, looking up, or getting out of bed?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_positional_trigger", "label": "Yes, definitely related to position changes" },
+        { "value": "sometimes_positional_trigger", "label": "Sometimes, or I'm not sure if it's the position" },
+        { "value": "no_positional_trigger", "label": "No, not related to position changes" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s5a_triggers_other",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "neuro_diz_s5a_triggers_other",
+      "text": "What else, if anything, seems to trigger or worsen these sensations? (Select all that apply)",
+      "instructions": "E.g., standing long periods, head movements, stress, specific situations.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "prolonged_standing_dizzy_trigger", "label": "Standing for long periods" },
+        { "value": "specific_head_movements_dizzy_trigger", "label": "Specific head movements (other than general position change)" },
+        { "value": "stress_anxiety_dizzy_trigger", "label": "Stress or anxiety" },
+        { "value": "crowded_hot_environments_dizzy_trigger", "label": "Crowded or hot environments" },
+        { "value": "physical_exertion_dizzy_trigger", "label": "Physical exertion" },
+        { "value": "certain_medications_dizzy_trigger", "label": "Certain medications" },
+        { "value": "visual_stimuli_dizzy_trigger", "label": "Busy visual environments or scrolling on screens" },
+        { "value": "nothing_specific_dizzy_trigger", "label": "No specific trigger I can identify" },
+        { "value": "other_dizzy_trigger", "label": "Other" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s6_severity",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s6_severity",
+      "text": "How severe is the sensation? Does it force you to sit or lie down? Has it ever caused you to fall?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s7_associated_symptoms",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s7_associated_symptoms",
+      "text": "When you experience this dizziness/vertigo/imbalance, do you also have any of the following? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "nausea_vomiting_dizzy_assoc", "label": "Nausea or vomiting" },
+        { "value": "hearing_loss_dizzy_assoc", "label": "Hearing loss" },
+        { "value": "tinnitus_dizzy_assoc", "label": "Ringing in your ears (tinnitus)" },
+        { "value": "ear_fullness_pressure_dizzy_assoc", "label": "Sensation of fullness or pressure in your ears" },
+        { "value": "visual_disturbances_dizzy_assoc", "label": "Visual disturbances (e.g., blurred vision, double vision, world moving/shimmering)" },
+        { "value": "headache_dizzy_assoc", "label": "Headache" },
+        { "value": "numbness_weakness_dizzy_assoc", "label": "Numbness or weakness" },
+        { "value": "speech_swallowing_difficulty_dizzy_assoc", "label": "Difficulty speaking or swallowing" },
+        { "value": "palpitations_chest_pain_sob_dizzy_assoc", "label": "Palpitations, chest pain, or shortness of breath" },
+        { "value": "warmth_sweats_color_change_presyncope_assoc", "label": "Feeling warm, cold sweats, or changes in skin color (if feeling faint)" },
+        { "value": "none_of_these_dizzy_assoc", "label": "None of these specific symptoms" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s8_progression",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s8_progression",
+      "text": "Has the nature, frequency, or severity of these episodes changed over time?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_diz_s9_impact",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_diz_s9_impact",
+      "text": "How does this dizziness or unsteadiness affect your ability to walk, drive, or perform other daily activities?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_cog_s0_confirm",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_cog_s0_confirm",
+      "text": "We will now ask about any changes in thinking, memory, concentration, or behavior. Are you experiencing issues in these areas, sometimes described as 'brain fog'?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_cognitive", "label": "Yes, I have concerns in these areas" },
+        { "value": "no_cognitive", "label": "No, not significantly (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_sen_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_cognitive"}, "nextQuestionId": "neuro_cog_s1_clarification_experience" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_cog_s1_clarification_experience",
+      "text": "You've mentioned changes in thinking, memory, concentration, or 'brain fog.' Can you elaborate on what that experience is like for you?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1500 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_cog_s2_memory_type",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_cog_s2_memory_type",
+      "text": "Regarding memory, what types of things are you forgetting? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "recent_events", "label": "Recent events or conversations" },
+        { "value": "names_people", "label": "Names of people" },
+        { "value": "appointments", "label": "Appointments" },
+        { "value": "item_placement", "label": "Where you've placed things" },
+        { "value": "learning_new_info", "label": "Difficulty learning new information" },
+        { "value": "recalling_past_events", "label": "Difficulty recalling past events" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_cog_s3_attention",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_sen_s0_confirm",
+      "text": "Next, we'll ask about unusual sensations like numbness or tingling. Do you have concerns in this area?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_sensory", "label": "Yes" },
+        { "value": "no_sensory", "label": "No (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_mot_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_sensory"}, "nextQuestionId": "neuro_sen_s1_clarification" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_sen_s1_clarification",
+      "text": "You mentioned unusual sensations. Can you describe them? (e.g., numbness, tingling, pins and needles, burning, coldness, reduced touch, pain)",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_sen_s2_location",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_mot_s0_confirm",
+      "text": "Now, let's discuss any changes in movement, strength, or coordination. Are you experiencing issues like weakness, tremor, involuntary movements, clumsiness, or problems with walking/balance?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_motor", "label": "Yes" },
+        { "value": "no_motor", "label": "No (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_altc_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_motor"}, "nextQuestionId": "neuro_mot_s1_clarification_type" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_mot_s1_clarification_type",
+      "text": "Can you describe the change in movement or coordination? Is it mainly weakness, shakiness/tremor, involuntary movements/spasms, clumsiness, or issues with walking/balance?",
+      "inputType": "checkbox",
+      "options": [
+          {"value": "weakness", "label": "Weakness"},
+          {"value": "tremor", "label": "Shakiness / Tremor"},
+          {"value": "involuntary_movements", "label": "Involuntary movements / Spasms"},
+          {"value": "clumsiness_incoordination", "label": "Clumsiness / Incoordination"},
+          {"value": "gait_balance_issues", "label": "Problems with walking or balance"}
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_mot_s2_weakness_location",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_altc_s0_confirm",
+      "text": "Have you experienced any episodes where you lose consciousness, black out, faint, or have something that might be a seizure?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_alt_consciousness", "label": "Yes" },
+        { "value": "no_alt_consciousness", "label": "No (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_spch_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_alt_consciousness"}, "nextQuestionId": "neuro_altc_s1_clarification_description" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_altc_s1_clarification_description",
+      "text": "Can you describe what happens leading up to, during, and after one of these episodes?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 2000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_altc_s2_prodrome_aura",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_spch_s0_confirm",
+      "text": "Are you experiencing any difficulties with your speech or swallowing?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_speech_swallowing", "label": "Yes" },
+        { "value": "no_speech_swallowing", "label": "No (skip to other symptoms)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_vis_s0_confirm",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_speech_swallowing"}, "nextQuestionId": "neuro_spch_s1_clarification_which" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_spch_s1_clarification_which",
+      "text": "Is the difficulty mainly with speech, swallowing, or both?",
+      "inputType": "checkbox",
+      "options": [
+          {"value": "speech", "label": "Speech difficulty"},
+          {"value": "swallowing", "label": "Swallowing difficulty"},
+          {"value": "both", "label": "Both speech and swallowing"}
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_spch_s2_speech_nature",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_vis_s0_confirm",
+      "text": "Have you experienced any problems or changes with your vision?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_visual", "label": "Yes" },
+        { "value": "no_visual", "label": "No (skip to red flags)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s1_thunderclap",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_visual"}, "nextQuestionId": "neuro_vis_s1_clarification_nature" }
+      ],
+      "gdprSensitivity": "low"
+    },
+    {
+      "id": "neuro_vis_s1_clarification_nature",
+      "text": "Can you describe the visual changes you are experiencing? (e.g., blurred vision, double vision, loss of vision, flashing lights, distortion)",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_vis_s2_blur_details",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s1_thunderclap",
+      "text": "Have you experienced a headache that came on very suddenly, as if someone flipped a switch, reaching its maximum intensity within a minute or two? Or a headache you would describe as the 'worst headache of your life'?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s2_focal_deficit",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s2_focal_deficit",
+      "text": "Have you had any sudden weakness or numbness (especially on one side of body), sudden trouble speaking or understanding, sudden difficulty seeing, or sudden difficulty with walking, dizziness, or loss of balance/coordination?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s3_fever_neuro",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s3_fever_neuro",
+      "text": "Have you had a fever accompanied by a stiff neck, severe headache, confusion, unusual drowsiness, or seizures?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s4_first_seizure",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s4_first_seizure",
+      "text": "If you experienced a seizure, was this the very first time you have ever had such an episode?",
+      "instructions": "Answer 'Not Applicable' if you have not had a seizure.",
+      "inputType": "radio",
+      "options": [ 
+        { "value": "yes_first_seizure", "label": "Yes, it was the first time" }, 
+        { "value": "no_previous_seizures", "label": "No, I have had seizures before" },
+        { "value": "not_applicable_no_seizure", "label": "Not Applicable / I did not have a seizure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s5_rapid_progression",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s5_rapid_progression",
+      "text": "Have your symptoms (such as weakness, sensory loss, cognitive changes, or difficulty with coordination) been getting worse quickly, over a period of days or weeks, rather than months or years?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes, worsening quickly (days/weeks)" }, { "value": "no", "label": "No, onset/progression is slower or stable" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s6_raised_icp",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s6_raised_icp",
+      "text": "Do you experience headaches that are typically worse in the morning or that wake you from sleep, often associated with nausea or vomiting (especially in the morning), or transient blurring of vision when changing posture?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s7_head_trauma",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s7_head_trauma",
+      "text": "Did your current 'head problem' begin after a significant head injury or fall? If so, was there loss of consciousness, confusion, or vomiting immediately afterward?",
+      "inputType": "textArea",
+      "instructions": "Describe if yes, or write 'No' or 'N/A'.",
+      "isRequired": true,
+      "validation": { "maxLength": 500 },
+      "defaultNextQuestionId": "neuro_redflag_s8_spinal_cauda_equina",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s8_spinal_cauda_equina",
+      "text": "Have you experienced any new problems with bladder or bowel control (difficulty passing urine, incontinence), numbness in the saddle area (groin/buttocks/inner thighs), or progressive weakness/clumsiness in your legs/arms?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s9_weight_loss",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s9_weight_loss",
+      "text": "Have you experienced any significant unexplained weight loss recently, in conjunction with these neurological symptoms?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "neuro_redflag_s10_gca_symptoms_over_50",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "neuro_redflag_s10_gca_symptoms_over_50",
+      "text": "If you are over 50: Have you experienced new headaches (especially around temples), scalp/temple tenderness, jaw pain when chewing, or any sudden (even temporary) loss of vision?",
+      "instructions": "Answer 'Not Applicable' if under 50 or these specific symptoms do not apply.",
+      "inputType": "radio",
+      "options": [ 
+        { "value": "yes_gca_symptoms", "label": "Yes, I am over 50 and have some of these symptoms" }, 
+        { "value": "no_gca_symptoms", "label": "I am over 50 but do not have these specific symptoms" },
+        { "value": "under_50_not_applicable", "label": "I am under 50 / Not Applicable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "END_NEURO_CONSULT_001",
+      "gdprSensitivity": "high"
+    }
+  ]
+}

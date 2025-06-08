@@ -1,0 +1,896 @@
+{
+  "questionnaireId": "ORTHO_CONSULT_001",
+  "version": "1.0.0",
+  "title": "Orthopaedic Consultation - Initial Assessment (v1.0.0)",
+  "description": "A series of questions to understand your bone, joint, or muscle condition.",
+  "illnessDomains": ["orthopaedics"],
+  "questions": [
+    {
+      "id": "ortho_onset_type",
+      "text": "To begin, did your current problem start from a specific injury or accident, or did it develop more gradually over time?",
+      "inputType": "radio",
+      "options": [
+        { "value": "traumatic_injury", "label": "From a specific injury or accident" },
+        { "value": "atraumatic_insidious", "label": "Gradually, without a specific injury" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_atraumatic_s1_when_noticed",
+      "branchingLogic": [
+        { 
+          "condition": {"type": "equals", "answerValue": "traumatic_injury"}, 
+          "nextQuestionId": "ortho_trauma_s1_when_how" 
+        }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_trauma_s1_when_how",
+      "text": "When and how did the incident occur? Please describe exactly what happened.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_trauma_s2_activity_at_time",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_trauma_s2_activity_at_time",
+      "text": "What were you doing at the time of the injury?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "sport", "label": "Playing a sport" },
+        { "value": "work_activity", "label": "Work-related activity" },
+        { "value": "fall_simple", "label": "A simple fall from standing height" },
+        { "value": "fall_from_height", "label": "A fall from a height (e.g., ladder, stairs)" },
+        { "value": "motor_vehicle_accident", "label": "Motor vehicle accident" },
+        { "value": "lifting_heavy_object", "label": "Lifting a heavy object" },
+        { "value": "daily_activity", "label": "Normal daily activity (e.g., walking, household chore)" },
+        { "value": "other_activity", "label": "Other" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_trauma_s3_mechanism",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_trauma_s3_mechanism",
+      "text": "What exactly happened to the affected limb/area? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "twist", "label": "It twisted" },
+        { "value": "direct_blow", "label": "It received a direct blow or impact" },
+        { "value": "overstretched", "label": "It was overstretched or pulled" },
+        { "value": "landed_awkwardly", "label": "I landed on it awkwardly" },
+        { "value": "repetitive_action", "label": "It happened during a repetitive action" },
+        { "value": "other_mechanism", "label": "Other" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_trauma_s4_force",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_trauma_s4_force",
+      "text": "How much force was involved in the incident?",
+      "inputType": "radio",
+      "options": [
+        { "value": "high_impact", "label": "High impact (e.g., car accident, major fall)" },
+        { "value": "low_impact", "label": "Lower impact (e.g., simple twist, minor fall)" },
+        { "value": "unsure_force", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_trauma_s5_sound_sensation",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_trauma_s5_sound_sensation",
+      "text": "Did you hear or feel any pop, snap, or tearing sensation at the time of injury?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_pop", "label": "Yes, a 'pop'" },
+        { "value": "yes_snap", "label": "Yes, a 'snap'" },
+        { "value": "yes_tear", "label": "Yes, a tearing sensation" },
+        { "value": "yes_other_sound", "label": "Yes, another sound or sensation" },
+        { "value": "no_sound", "label": "No, I did not notice any specific sound or sensation" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_trauma_s6_immediate_symptoms",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_trauma_s6_immediate_symptoms",
+      "text": "Was there immediate pain, swelling, or inability to use the affected part right after the injury?",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "immediate_pain", "label": "Immediate pain" },
+        { "value": "immediate_swelling", "label": "Immediate swelling (within minutes)" },
+        { "value": "delayed_swelling", "label": "Swelling developed later (hours/next day)" },
+        { "value": "immediate_inability_to_use", "label": "Immediate inability to use or bear weight on it" },
+        { "value": "no_immediate_severe_symptoms", "label": "Symptoms were not severe immediately" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q1_quality",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_atraumatic_s1_when_noticed",
+      "text": "When did you first notice the problem?",
+      "inputType": "date",
+      "validation": { "allowFutureDates": false },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_atraumatic_s2_why_started",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_atraumatic_s2_why_started",
+      "text": "Do you have any idea why it started?",
+      "instructions": "E.g., a new activity, repetitive motion, a change in your usual routine.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_atraumatic_s3_progression",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_atraumatic_s3_progression",
+      "text": "Has the problem been getting progressively worse, better, or staying the same over time?",
+      "inputType": "radio",
+      "options": [
+        { "value": "worse", "label": "Getting progressively worse" },
+        { "value": "better", "label": "Getting slowly better" },
+        { "value": "same", "label": "Staying about the same" },
+        { "value": "fluctuating", "label": "Fluctuating (comes and goes, or good days/bad days)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_atraumatic_s4_onset_manner",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_atraumatic_s4_onset_manner",
+      "text": "Even though it wasn't linked to a specific injury, would you say the onset was sudden or gradual?",
+      "inputType": "radio",
+      "options": [
+        { "value": "sudden", "label": "Sudden onset" },
+        { "value": "gradual", "label": "Gradual onset" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q1_quality",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_pain_q1_quality",
+      "text": "If you are experiencing pain, can you describe it? (Select all that apply)",
+      "instructions": "E.g., sharp, dull, aching, stabbing, throbbing, burning, shooting, cramping, tingling.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "sharp", "label": "Sharp / Stabbing" },
+        { "value": "dull", "label": "Dull" },
+        { "value": "aching", "label": "Aching" },
+        { "value": "throbbing", "label": "Throbbing" },
+        { "value": "burning", "label": "Burning" },
+        { "value": "shooting_radiating", "label": "Shooting (like an electric shock)" },
+        { "value": "cramping", "label": "Cramping" },
+        { "value": "tingling_pins_needles", "label": "Tingling / Pins and needles" },
+        { "value": "no_pain", "label": "Pain is not a primary symptom" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q2_region",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_pain_q2_region",
+      "text": "Where exactly is the pain? Can you point to it or describe the main location?",
+      "inputType": "textInput",
+      "validation": { "maxLength": 200 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q2a_radiation",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_pain_q2a_radiation",
+      "text": "Does the pain spread or radiate to any other areas? If so, where?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_symptom_pain_q3_severity_worst",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_pain_q3_severity_worst",
+      "text": "On a scale of 0 (no pain) to 10 (worst pain imaginable), how would you rate your pain AT ITS WORST?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "n_a", "label": "Not Applicable / No pain" }, { "value": "0", "label": "0" }, { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }, { "value": "7", "label": "7" }, { "value": "8", "label": "8" }, { "value": "9", "label": "9" },
+        { "value": "10", "label": "10 - Worst pain imaginable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q3a_severity_best",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_pain_q3a_severity_best",
+      "text": "And on the same 0-10 scale, how would you rate your pain AT ITS BEST?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "n_a", "label": "Not Applicable / No pain" }, { "value": "0", "label": "0" }, { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }, { "value": "7", "label": "7" }, { "value": "8", "label": "8" }, { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q3b_severity_average",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_pain_q3b_severity_average",
+      "text": "Finally, on the same 0-10 scale, what is your AVERAGE pain level?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "n_a", "label": "Not Applicable / No pain" }, { "value": "0", "label": "0" }, { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }, { "value": "7", "label": "7" }, { "value": "8", "label": "8" }, { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q4_timing",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_pain_q4_timing",
+      "text": "Is the pain constant, or does it come and go (intermittent)?",
+      "inputType": "radio",
+      "options": [
+        { "value": "constant", "label": "Constant" },
+        { "value": "intermittent", "label": "Intermittent (comes and goes)" },
+        { "value": "only_with_activity", "label": "Only occurs with specific activity" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_pain_q4a_timing_timeofday",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_pain_q4a_timing_timeofday",
+      "text": "Is there a particular time of day when the pain is worse or better?",
+      "instructions": "E.g., in the morning, at night, after activity.",
+      "inputType": "textInput",
+      "validation": { "maxLength": 200 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_symptom_pain_q4b_timing_night",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_pain_q4b_timing_night",
+      "text": "Does the pain wake you at night?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_msk_stiffness",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_msk_stiffness",
+      "text": "Do you experience stiffness in the affected area?",
+      "instructions": "If yes, please describe when it is most noticeable and how long it lasts in the next question.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_msk_swelling", 
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "ortho_symptom_msk_stiffness_details" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_msk_stiffness_details",
+      "text": "When is the stiffness most noticeable and how long does it last?",
+      "instructions": "E.g., 'Worse in the morning, lasts for about 30 minutes'.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_msk_swelling",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_msk_swelling",
+      "text": "Have you noticed any swelling in the affected area?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_msk_mechanical",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_msk_mechanical",
+      "text": "Do you experience any of the following mechanical symptoms in the affected joint? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "locking", "label": "Locking (gets stuck in one position)" },
+        { "value": "catching", "label": "Catching" },
+        { "value": "clicking", "label": "Clicking" },
+        { "value": "clunking", "label": "Clunking" },
+        { "value": "popping", "label": "Popping" },
+        { "value": "instability", "label": "A feeling of instability or 'giving way'" },
+        { "value": "grinding", "label": "Grinding sensations (crepitus)" },
+        { "value": "none", "label": "None of these" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_msk_appearance",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_msk_appearance",
+      "text": "Have you noticed any changes in the appearance of the affected area?",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "bruising", "label": "Bruising" },
+        { "value": "redness", "label": "Redness" },
+        { "value": "deformity", "label": "Deformity (looks a different shape)" },
+        { "value": "muscle_wasting", "label": "Muscle wasting (area looks smaller/thinner)" },
+        { "value": "none", "label": "No change in appearance" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_msk_rom",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_msk_rom",
+      "text": "Do you have difficulty moving the affected part through its full range of motion?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" },
+        { "value": "unsure", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_neuro_numbness_q",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_symptom_neuro_numbness_q",
+      "text": "Do you experience any numbness or tingling (pins and needles) sensations in or around the affected area, or anywhere else related to it?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_neuro_weakness_q",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_neuro_weakness_q",
+      "text": "Do you experience any weakness in the muscles of the affected limb or elsewhere?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_symptom_neuro_red_flag_bowel_bladder",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_symptom_neuro_red_flag_bowel_bladder",
+      "text": "Have you experienced any loss of bowel or bladder control?",
+      "instructions": "This is a very important question. Please answer accurately.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_factors_aggravating",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_factors_aggravating",
+      "text": "What activities or movements make your symptoms WORSE? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "standing", "label": "Standing" }, { "value": "walking", "label": "Walking" },
+        { "value": "lifting", "label": "Lifting" }, { "value": "reaching", "label": "Reaching" },
+        { "value": "exercise", "label": "Exercise" }, { "value": "twisting", "label": "Twisting" },
+        { "value": "lying_in_bed", "label": "Lying in Bed" }, { "value": "bending", "label": "Bending" },
+        { "value": "stairs", "label": "Climbing Stairs" }, { "value": "squatting", "label": "Squatting" },
+        { "value": "kneeling", "label": "Kneeling" }, { "value": "sitting", "label": "Sitting" },
+        { "value": "coughing_sneezing", "label": "Coughing or Sneezing" },
+        { "value": "no_clear_aggravating_factor", "label": "No clear activity makes it worse" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_factors_relieving",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_factors_relieving",
+      "text": "What makes your symptoms BETTER or provides relief? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "rest", "label": "Rest" }, { "value": "ice", "label": "Ice" }, { "value": "heat", "label": "Heat" },
+        { "value": "elevation", "label": "Elevation (raising the affected part)" },
+        { "value": "specific_positions", "label": "Specific positions or postures" },
+        { "value": "movement_stretching", "label": "Gentle movement or stretching" },
+        { "value": "medication_otc", "label": "Over-the-counter medication" },
+        { "value": "medication_rx", "label": "Prescription medication" },
+        { "value": "nothing_relieves", "label": "Nothing seems to provide relief" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_factors_irritability",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_factors_irritability",
+      "text": "How long does it take for your symptoms to settle down once aggravated?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "immediately_on_stopping", "label": "Almost immediately after stopping the activity" },
+        { "value": "few_minutes", "label": "A few minutes" },
+        { "value": "thirty_minutes_to_hour", "label": "30 minutes to an hour" },
+        { "value": "several_hours", "label": "Several hours" },
+        { "value": "next_day_or_longer", "label": "It takes until the next day or longer" },
+        { "value": "does_not_settle", "label": "It doesn't really settle down" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s1_adl_intro",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_impact_s1_adl_intro",
+      "text": "We'll now ask how this problem affects your daily life. Please describe how it affects your ability to perform personal care (e.g., dressing, bathing, grooming)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s2_household",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s2_household",
+      "text": "How does it affect your ability to perform household chores (e.g., cooking, cleaning, shopping)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s3_mobility",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s3_mobility",
+      "text": "How does it affect your mobility (e.g., walking, climbing stairs, getting in/out of a car)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s4_cant_do",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s4_cant_do",
+      "text": "Is there anything you can't do now that you used to be able to do? If so, why (e.g., because of pain, weakness, stiffness)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s5_work",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s5_work",
+      "text": "Are you able to work? If yes, does the problem affect your ability to perform your job duties? Please explain.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s6_recreation",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s6_recreation",
+      "text": "Does the problem limit your ability to participate in hobbies, sports, or other recreational activities? If yes, please describe.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s7_sleep",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s7_sleep",
+      "text": "Does the problem affect your sleep? If yes, how (e.g., difficulty finding a comfortable position, pain waking you up)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_impact_s8_assistive_devices",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_impact_s8_assistive_devices",
+      "text": "Do you use any assistive devices (e.g., cane, walker, brace) because of this problem?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_prev_treat_s1_what_tried",
+      "branchingLogic": [
+          {"condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "ortho_impact_s8a_assistive_devices_specify"}
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_impact_s8a_assistive_devices_specify",
+      "text": "Please specify which assistive device(s) you use.",
+      "inputType": "textInput",
+      "validation": { "maxLength": 300 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_prev_treat_s1_what_tried",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_prev_treat_s1_what_tried",
+      "text": "What treatments have you tried for this problem so far? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "medications_pain_relievers", "label": "Medications (Pain relievers)" },
+        { "value": "medications_anti_inflammatories", "label": "Medications (Anti-inflammatories)" },
+        { "value": "medications_muscle_relaxants", "label": "Medications (Muscle relaxants)" },
+        { "value": "physical_therapy_exercises", "label": "Physical therapy or specific exercises" },
+        { "value": "injections_cortisone", "label": "Injections (e.g., cortisone)" },
+        { "value": "brace_splint_support", "label": "Braces, splints, or other supports" },
+        { "value": "chiropractic_osteopathic", "label": "Chiropractic or osteopathic treatment" },
+        { "value": "acupuncture_massage_other_alt", "label": "Acupuncture, massage, or other alternative therapies" },
+        { "value": "home_remedies_ice_heat", "label": "Home remedies (e.g., ice, heat)" },
+        { "value": "none_tried", "label": "None tried yet" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_prev_treat_s1a_medications_details",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_prev_treat_s1a_medications_details",
+      "text": "Please list any medications you've tried (name, dose, frequency) and for each treatment, did it help, make it worse, or have no effect?",
+      "instructions": "You can list multiple treatments and their outcomes.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 2000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_prev_treat_s2_diagnostic_tests",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_prev_treat_s2_diagnostic_tests",
+      "text": "What diagnostic tests have you had for this problem? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "xray", "label": "X-rays" },
+        { "value": "mri", "label": "MRI scan" },
+        { "value": "ct_scan", "label": "CT scan" },
+        { "value": "bone_scan", "label": "Bone scan" },
+        { "value": "ultrasound", "label": "Ultrasound" },
+        { "value": "nerve_tests_emg_ncv", "label": "Nerve tests (e.g., EMG/NCV)" },
+        { "value": "blood_tests", "label": "Blood tests" },
+        { "value": "none_tests", "label": "No diagnostic tests done" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_prev_treat_s2a_tests_details",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_prev_treat_s2a_tests_details",
+      "text": "If you have had tests, what were the results, if you know? Where and when were these tests done?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_prev_treat_s3_other_providers",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_prev_treat_s3_other_providers",
+      "text": "Have you seen any other doctors or healthcare providers for this problem? If so, who and when?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_prev_treat_s4_er_visit",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_prev_treat_s4_er_visit",
+      "text": "Have you ever been to the Emergency Room for this problem? If yes, which ER and when?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_prev_treat_s5_previous_surgery",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_prev_treat_s5_previous_surgery",
+      "text": "Have you had any previous surgery for this specific problem or on this body part? If yes, what surgery, who was the surgeon, and when was it performed?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_past_med_s1_prev_ortho_problems",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_past_med_s1_prev_ortho_problems",
+      "text": "Have you had any previous significant injuries or orthopaedic problems, even if they seemed to resolve (e.g., fractures, dislocations, sprains, tendonitis)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_past_med_s2_ongoing_conditions",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_past_med_s2_ongoing_conditions",
+      "text": "Do you have any ongoing medical conditions? (Select all that apply or list others)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "osteoarthritis", "label": "Osteoarthritis" },
+        { "value": "rheumatoid_arthritis", "label": "Rheumatoid Arthritis" },
+        { "value": "gout", "label": "Gout" },
+        { "value": "osteoporosis_osteopenia", "label": "Osteoporosis or Osteopenia" },
+        { "value": "diabetes", "label": "Diabetes" },
+        { "value": "heart_conditions", "label": "Heart conditions (e.g., high blood pressure, coronary artery disease)" },
+        { "value": "lung_conditions", "label": "Lung conditions (e.g., asthma, COPD)" },
+        { "value": "neurological_conditions", "label": "Neurological conditions (e.g., MS, Parkinson's, stroke)" },
+        { "value": "thyroid_problems", "label": "Thyroid problems" },
+        { "value": "cancer_history", "label": "Cancer (current or past history)" },
+        { "value": "infections_lyme_joint", "label": "Infections (e.g., Lyme disease, past joint infections)" },
+        { "value": "bleeding_disorders", "label": "Bleeding disorders" },
+        { "value": "depression_anxiety", "label": "Mental health conditions (e.g., depression, anxiety)" },
+        { "value": "none_ongoing", "label": "None of these specific conditions" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_past_med_s2a_ongoing_conditions_other",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_past_med_s2a_ongoing_conditions_other",
+      "text": "If you have other ongoing medical conditions not listed, please specify.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_past_med_s3_other_surgeries",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_past_med_s3_other_surgeries",
+      "text": "Have you had any surgeries in the past (unrelated to the current problem)? If yes, please list the type of surgery and the approximate date.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_meds_s1_list_all",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_meds_s1_list_all",
+      "text": "Please list ALL medications you are currently taking (prescription, over-the-counter, vitamins, supplements, herbal remedies). Include name, dose, and frequency if possible.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 2000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_meds_s2_allergies_meds",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_meds_s2_allergies_meds",
+      "text": "Are you allergic to any medications? If yes, please list the medication and describe the reaction.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_meds_s3_allergies_other",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_meds_s3_allergies_other",
+      "text": "Are you allergic to any other substances (e.g., latex, adhesives, foods, contrast dye)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_social_s1_family_history",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_social_s1_family_history",
+      "text": "Do any of your close family members (parents, siblings, children) have a history of arthritis (osteoarthritis, rheumatoid), osteoporosis, significant back problems, or other notable bone/joint/muscle conditions?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_social_s2_occupation",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_social_s2_occupation",
+      "text": "What is your current occupation and what are its physical demands (e.g., heavy lifting, repetitive movements, prolonged sitting/standing)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_social_s3_hobbies",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_social_s3_hobbies",
+      "text": "What are your hobbies and recreational activities, including sports and exercise? How often do you participate?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_social_s4_smoking",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_social_s4_smoking",
+      "text": "Do you smoke tobacco? If yes, how much (e.g., packs per day) and for how long (e.g., number of years)?",
+      "inputType": "textInput", 
+      "instructions": "If no, please write 'No'.",
+      "validation": { "maxLength": 200 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_social_s5_alcohol",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_social_s5_alcohol",
+      "text": "Do you drink alcohol? If yes, how much and how often?",
+      "inputType": "textInput",
+      "instructions": "If no, please write 'No'.",
+      "validation": { "maxLength": 200 },
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_social_s6_recreational_drugs",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_social_s6_recreational_drugs",
+      "text": "Do you use any recreational drugs?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" },
+        { "value": "prefer_not_to_say", "label": "Prefer not to say" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_social_s7_activity_level",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_social_s7_activity_level",
+      "text": "What is your general level of physical activity?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "sedentary", "label": "Sedentary (mostly sitting, little to no exercise)" },
+        { "value": "lightly_active", "label": "Lightly active (light exercise/walking 1-3 days/week)" },
+        { "value": "moderately_active", "label": "Moderately active (moderate exercise/sports 3-5 days/week)" },
+        { "value": "very_active", "label": "Very active (intense exercise/sports 6-7 days/week)" },
+        { "value": "extremely_active", "label": "Extremely active (very intense exercise daily or physical job)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_social_s8_living_situation",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_social_s8_living_situation",
+      "text": "What is your living situation (e.g., type of home, presence of stairs, availability of support at home)?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": false,
+      "defaultNextQuestionId": "ortho_general_s1_weight_loss",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "ortho_general_s1_weight_loss",
+      "text": "Have you recently experienced any unexplained weight loss?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_general_s2_fever_chills",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_general_s2_fever_chills",
+      "text": "Have you had persistent fevers or chills?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_general_s3_night_sweats",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_general_s3_night_sweats",
+      "text": "Have you experienced unusual or drenching night sweats?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_general_s4_persistent_fatigue",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_general_s4_persistent_fatigue",
+      "text": "Do you have persistent or severe fatigue that is not directly related to this specific musculoskeletal problem?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s1_pain_constant_night",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s1_pain_constant_night",
+      "text": "Is your pain constant and unrelenting, especially at night, and not relieved by changing position?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s2_bowel_bladder_recheck",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s2_bowel_bladder_recheck",
+      "text": "To confirm, have you experienced any recent, unexplained loss of bowel or bladder control, or numbness in the saddle area (groin/buttocks)?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s3_rapid_weakness",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s3_rapid_weakness",
+      "text": "Have you noticed rapidly progressing weakness in your legs or arms?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s4_cancer_history_link",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s4_cancer_history_link",
+      "text": "Do you have a personal history of cancer?",
+      "instructions": "This is relevant if you are experiencing new bone pain.",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s5_recent_trauma_unmentioned",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s5_recent_trauma_unmentioned",
+      "text": "Is there any history of recent significant trauma that you haven't mentioned, especially if you are an older adult or have osteoporosis?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s6_recent_infection",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s6_recent_infection",
+      "text": "Have you had a recent bacterial or viral infection?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s7_steroid_use",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s7_steroid_use",
+      "text": "Are you currently taking or have you recently taken steroid medications (e.g., prednisone) for a long period?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "unsure", "label": "Unsure" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_redflag_s8_iv_drug_use",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_redflag_s8_iv_drug_use",
+      "text": "Do you use intravenous drugs?",
+      "inputType": "radio",
+      "options": [ { "value": "yes", "label": "Yes" }, { "value": "no", "label": "No" }, { "value": "prefer_not_to_say", "label": "Prefer not to say" } ],
+      "isRequired": true,
+      "defaultNextQuestionId": "ortho_final_comments_recheck",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "ortho_final_comments_recheck",
+      "text": "Before concluding, is there anything else at all you would like to add about your orthopaedic problem or your health in general?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 2000 },
+      "isRequired": false,
+      "defaultNextQuestionId": "END_ORTHO_CONSULT_001",
+      "gdprSensitivity": "high"
+    }
+  ]
+}

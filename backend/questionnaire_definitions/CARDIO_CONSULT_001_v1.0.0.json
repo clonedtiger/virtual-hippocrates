@@ -1,0 +1,362 @@
+{
+  "questionnaireId": "CARDIO_CONSULT_001",
+  "version": "1.0.0",
+  "title": "Cardiology Consultation - Initial Assessment (v1.0.0)",
+  "description": "A series of questions to understand your heart-related symptoms.",
+  "illnessDomains": ["cardiology"],
+  "questions": [
+    {
+      "id": "cardio_intro",
+      "text": "This section will ask about heart-related symptoms. Please answer as accurately as possible. Do you primarily want to discuss chest pain/discomfort, shortness of breath, palpitations, swelling, dizziness/fainting, fatigue, or leg pain?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "chest_pain", "label": "Chest pain or discomfort" },
+        { "value": "shortness_of_breath", "label": "Shortness of breath" },
+        { "value": "palpitations", "label": "Palpitations (heart racing/fluttering/skipping)" },
+        { "value": "swelling", "label": "Swelling (edema)" },
+        { "value": "dizziness_fainting", "label": "Dizziness or fainting spells" },
+        { "value": "fatigue", "label": "Unusual fatigue" },
+        { "value": "leg_pain", "label": "Leg pain (especially with activity)" },
+        { "value": "multiple_or_other", "label": "Multiple issues or something else" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s1_main_location_describe",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "chest_pain"}, "nextQuestionId": "cardio_cp_s1_main_location_describe" },
+        { "condition": {"type": "equals", "answerValue": "shortness_of_breath"}, "nextQuestionId": "cardio_dys_s1_onset_when" },
+        { "condition": {"type": "equals", "answerValue": "palpitations"}, "nextQuestionId": "cardio_palp_s1_perception" },
+        { "condition": {"type": "equals", "answerValue": "swelling"}, "nextQuestionId": "cardio_ed_s1_location" },
+        { "condition": {"type": "equals", "answerValue": "dizziness_fainting"}, "nextQuestionId": "cardio_sync_s1_description" },
+        { "condition": {"type": "equals", "answerValue": "fatigue"}, "nextQuestionId": "cardio_fat_s1_severity" },
+        { "condition": {"type": "equals", "answerValue": "leg_pain"}, "nextQuestionId": "cardio_pad_s1_location" },
+        { "condition": {"type": "equals", "answerValue": "multiple_or_other"}, "nextQuestionId": "cardio_cp_s1_main_location_describe" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_general_onset_circumstances",
+      "text": "Before we dive into specific symptoms, were there any general specific circumstances or events that you recall around the time your primary concern started (e.g., new medication, illness, travel, new product use, stress)?",
+      "inputType": "textArea",
+      "isRequired": false,
+      "validation": { "maxLength": 1000 },
+      "defaultNextQuestionId": "cardio_cp_s1_main_location_describe",
+      "gdprSensitivity": "high"
+    },
+
+    {
+      "id": "cardio_cp_s1_main_location_describe",
+      "text": "If you are experiencing chest pain or discomfort, can you describe exactly where you feel it?",
+      "instructions": "You can describe it or point if this were an in-person consultation.",
+      "inputType": "textArea",
+      "isRequired": true,
+      "validation": { "maxLength": 500 },
+      "defaultNextQuestionId": "cardio_cp_s1a_location_specific",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "cardio_cp_s1a_location_specific",
+      "text": "Is the chest pain/discomfort primarily in the center of your chest, more to the left side, or do you feel it elsewhere?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "center", "label": "Center of chest" },
+        { "value": "left_side", "label": "Left side of chest" },
+        { "value": "right_side", "label": "Right side of chest" },
+        { "value": "all_over_chest", "label": "All over the chest" },
+        { "value": "elsewhere_chest", "label": "Elsewhere (please specify in description)" },
+        { "value": "not_applicable_no_chest_pain", "label": "Not applicable / No chest pain" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s2_onset_when",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s2_onset_when",
+      "text": "When did this chest pain or discomfort first begin?",
+      "inputType": "date",
+      "isRequired": true,
+      "validation": { "allowFutureDates": false },
+      "defaultNextQuestionId": "cardio_cp_s2a_onset_manner",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s2a_onset_manner",
+      "text": "Did the chest pain/discomfort come on suddenly, or did it develop gradually?",
+      "inputType": "radio",
+      "options": [
+        { "value": "sudden", "label": "Suddenly" },
+        { "value": "gradual", "label": "Gradually" },
+        { "value": "unsure", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s2b_onset_activity",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s2b_onset_activity",
+      "text": "What were you doing at the time the chest pain/discomfort started?",
+      "inputType": "textInput",
+      "validation": { "maxLength": 300 },
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s2c_onset_history",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s2c_onset_history",
+      "text": "Is this chest pain/discomfort a new problem for you, or have you experienced similar episodes in the past?",
+      "inputType": "radio",
+      "options": [
+        { "value": "new", "label": "New problem" },
+        { "value": "past_similar", "label": "Experienced similar episodes in the past" },
+        { "value": "past_different", "label": "Experienced chest issues before, but different from this" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s3_character",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s3_character",
+      "text": "How would you describe the sensation of your chest pain/discomfort? (Select all that apply)",
+      "instructions": "E.g., pressure, tightness, squeezing, heaviness, burning, aching, sharp, stabbing.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "pressure", "label": "Pressure" },
+        { "value": "tightness", "label": "Tightness" },
+        { "value": "squeezing", "label": "Squeezing" },
+        { "value": "heaviness", "label": "Heaviness" },
+        { "value": "burning", "label": "Burning" },
+        { "value": "aching", "label": "Aching" },
+        { "value": "sharp", "label": "Sharp" },
+        { "value": "stabbing", "label": "Stabbing" },
+        { "value": "indigestion_like", "label": "Like indigestion" },
+        { "value": "other_sensation", "label": "Other (please describe)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s3a_character_elephant",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "cardio_cp_s3a_character_elephant",
+      "text": "Some people describe it as feeling like an elephant is sitting on their chest; does it feel anything like that?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_elephant", "label": "Yes, very much like that" },
+        { "value": "somewhat_elephant", "label": "Somewhat like that" },
+        { "value": "no_elephant", "label": "No, not like that" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s4_radiation_q",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s4_radiation_q",
+      "text": "Does the chest pain or discomfort move or spread anywhere else?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s5_associated_symptoms",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "cardio_cp_s4a_radiation_sites" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s4a_radiation_sites",
+      "text": "Where does the chest pain/discomfort radiate or spread to? (Select all that apply)",
+      "instructions": "E.g., jaw, neck, shoulders, arm(s), back, stomach.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "jaw", "label": "Jaw" },
+        { "value": "neck", "label": "Neck" },
+        { "value": "shoulders", "label": "Shoulders" },
+        { "value": "left_arm", "label": "Left arm" },
+        { "value": "right_arm", "label": "Right arm" },
+        { "value": "both_arms", "label": "Both arms" },
+        { "value": "back_between_shoulders", "label": "Back (especially between shoulder blades)" },
+        { "value": "stomach_epigastrium", "label": "Stomach area / Upper abdomen (epigastrium)" },
+        { "value": "other_radiation", "label": "Other location" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s5_associated_symptoms",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "cardio_cp_s5_associated_symptoms",
+      "text": "When you experience this chest pain/discomfort, do you notice any of these other symptoms at the same time? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "shortness_of_breath", "label": "Shortness of breath" },
+        { "value": "sweating_cold_profuse", "label": "Sweating (especially cold or profuse sweat)" },
+        { "value": "nausea", "label": "Nausea" },
+        { "value": "vomiting", "label": "Vomiting" },
+        { "value": "dizziness_lightheadedness", "label": "Dizziness or lightheadedness" },
+        { "value": "faint_feeling", "label": "Feeling faint" },
+        { "value": "palpitations_racing_fluttering", "label": "Heart racing, fluttering, or beating irregularly (palpitations)" },
+        { "value": "anxiety_impending_doom", "label": "Unusual anxiety or a sense of impending doom" },
+        { "value": "none_of_these_cp", "label": "None of these specific symptoms" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s6_timing_duration",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "cardio_cp_s6_timing_duration",
+      "text": "How long does each episode of chest pain or discomfort typically last?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "seconds_ fleeting", "label": "Seconds (fleeting)" },
+        { "value": "few_minutes_under_5", "label": "A few minutes (less than 5 minutes)" },
+        { "value": "5_15_minutes", "label": "5 to 15 minutes" },
+        { "value": "15_30_minutes", "label": "15 to 30 minutes" },
+        { "value": "more_than_30_minutes", "label": "More than 30 minutes" },
+        { "value": "hours_cp_duration", "label": "Hours" },
+        { "value": "constant_cp_duration", "label": "It's pretty much constant when it's there" },
+        { "value": "variable_cp_duration", "label": "Variable duration" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s6a_timing_pattern",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s6a_timing_pattern",
+      "text": "Is the chest pain/discomfort a constant sensation when present, or does it come and go?",
+      "inputType": "radio",
+      "options": [
+        { "value": "constant_sensation", "label": "Constant sensation during an episode" },
+        { "value": "comes_and_goes_intermittent", "label": "Comes and goes (intermittent)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s6b_timing_frequency",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s6b_timing_frequency",
+      "text": "How frequently do these episodes of chest pain/discomfort occur?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "multiple_times_day", "label": "Multiple times a day" },
+        { "value": "daily_cp_freq", "label": "About once a day" },
+        { "value": "several_times_week_cp_freq", "label": "Several times a week" },
+        { "value": "weekly_cp_freq", "label": "About once a week" },
+        { "value": "monthly_cp_freq", "label": "A few times a month" },
+        { "value": "rarely_less_than_monthly_cp_freq", "label": "Rarely (less than once a month)" },
+        { "value": "first_episode_cp_freq", "label": "This is the first time / or very recent onset" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s7_exacerbating",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s7_exacerbating",
+      "text": "What activities or situations seem to bring ON or WORSEN the chest pain/discomfort? (Select all that apply)",
+      "instructions": "E.g., physical exertion, stress, cold weather, heavy meals.",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "physical_exertion_walking_stairs", "label": "Physical exertion (e.g., walking, climbing stairs, lifting)" },
+        { "value": "emotional_stress", "label": "Emotional stress or excitement" },
+        { "value": "cold_weather_exposure", "label": "Exposure to cold weather" },
+        { "value": "after_heavy_meal", "label": "After eating a heavy meal" },
+        { "value": "lying_down_cp_exacerbate", "label": "Lying down" },
+        { "value": "breathing_deeply_cp_exacerbate", "label": "Deep breathing or coughing" },
+        { "value": "specific_movements_cp_exacerbate", "label": "Specific movements or pressure on the chest" },
+        { "value": "no_clear_trigger_cp_exacerbate", "label": "No clear trigger / Can occur at rest" },
+        { "value": "other_trigger_cp_exacerbate", "label": "Other triggers" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s8_relieving",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "cardio_cp_s8_relieving",
+      "text": "What, if anything, makes the chest pain or discomfort BETTER or go away? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "rest_cp_relieve", "label": "Rest" },
+        { "value": "nitroglycerin_gtn", "label": "Nitroglycerin (GTN) tablet or spray" },
+        { "value": "antacids", "label": "Antacids" },
+        { "value": "changing_position", "label": "Changing position (e.g., sitting up, leaning forward)" },
+        { "value": "pain_medication_otc_rx", "label": "Pain medication (e.g., paracetamol, ibuprofen, prescribed)" },
+        { "value": "breathing_techniques_cp_relieve", "label": "Specific breathing techniques or holding breath" },
+        { "value": "nothing_helps_cp_relieve", "label": "Nothing seems to make it better" },
+        { "value": "other_reliever_cp_relieve", "label": "Something else" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s8a_rest_help_detail",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "cardio_cp_s8a_rest_help_detail",
+      "text": "If rest helps the chest pain/discomfort, how quickly does it usually subside after resting?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "rest_not_applicable", "label": "Rest doesn't help / Not applicable" },
+        { "value": "rest_immediate_seconds", "label": "Almost immediately (seconds)" },
+        { "value": "rest_few_minutes_1_5", "label": "Within a few minutes (1-5 minutes)" },
+        { "value": "rest_5_15_minutes", "label": "Within 5-15 minutes" },
+        { "value": "rest_takes_longer", "label": "It takes longer than 15 minutes to ease with rest" },
+        { "value": "rest_variable_relief_time", "label": "Variable time for relief with rest" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s9_severity",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s9_severity",
+      "text": "On a scale of 0 to 10, where 0 is no pain and 10 is the worst pain imaginable, how would you rate this chest pain/discomfort when it occurs?",
+      "inputType": "dropdown",
+      "options": [
+        { "value": "0", "label": "0 - No pain" },
+        { "value": "1", "label": "1 - Very mild" },
+        { "value": "2", "label": "2 - Mild" },
+        { "value": "3", "label": "3 - Mild to Moderate" },
+        { "value": "4", "label": "4 - Moderate" },
+        { "value": "5", "label": "5 - Moderate" },
+        { "value": "6", "label": "6 - Moderate to Severe" },
+        { "value": "7", "label": "7 - Severe" },
+        { "value": "8", "label": "8 - Very Severe" },
+        { "value": "9", "label": "9 - Extremely Severe" },
+        { "value": "10", "label": "10 - Worst pain imaginable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_cp_s10_atypical_presentation",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "cardio_cp_s10_atypical_presentation",
+      "text": "Have you experienced any unusual, brief, or fleeting pains in your neck, arm, or back that you think might be related to this problem?",
+      "instructions": "Particularly relevant for women, older adults, or individuals with diabetes.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_atypical", "label": "Yes" },
+        { "value": "no_atypical", "label": "No" },
+        { "value": "unsure_atypical", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "cardio_dys_s1_onset_when",
+      "gdprSensitivity": "medium"
+    },
+
+    {
+      "id": "cardio_dys_s1_onset_when",
+      "text": "Regarding shortness of breath (dyspnea), when did you first begin to notice it?",
+      "instructions": "If you don't experience shortness of breath, please indicate.",
+      "inputType": "date",
+      "isRequired": true,
+      "validation": { "allowFutureDates": false },
+      "defaultNextQuestionId": "cardio_dys_s1a_onset_manner",
+      "gdprSensitivity": "medium"
+    },
+   
+    {
+      "id": "cardio_final_comments",
+      "text": "Is there anything else you'd like to add about your heart-related symptoms or concerns?",
+      "inputType": "textArea",
+      "isRequired": false,
+      "validation": { "maxLength": 2000 },
+      "defaultNextQuestionId": "END_CARDIO_CONSULT_001",
+      "gdprSensitivity": "high"
+    }
+  ]
+}

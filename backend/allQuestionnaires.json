@@ -1,0 +1,595 @@
+{
+  "questionnaires": [
+    {
+      "questionnaireId": "PATIENT_REG_001",
+      "title": "Patient Registration Information",
+      "description": "Basic information required for registration.",
+      "version": "1.0.0",
+      "illnessDomains": ["general", "registration"],
+      "questions": [
+        {
+          "id": "reg_name",
+          "text": "What is your full name?",
+          "instructions": "Please enter your full legal name.",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "validation": {
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "defaultNextQuestionId": "reg_age",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_age",
+          "text": "What is your age?",
+          "instructions": "Please enter your age in years.",
+          "illnessDomain": ["registration"],
+          "inputType": "number",
+          "isRequired": true,
+          "validation": {
+            "minValue": 0,
+            "maxValue": 120
+          },
+          "defaultNextQuestionId": "reg_gender",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "reg_gender",
+          "text": "What is your gender?",
+          "illnessDomain": ["registration"],
+          "inputType": "dropdown",
+          "options": [
+            {"value": "male", "label": "Male"},
+            {"value": "female", "label": "Female"},
+            {"value": "non_binary", "label": "Non-binary"},
+            {"value": "prefer_not_to_say", "label": "Prefer not to say"},
+            {"value": "other", "label": "Other (please specify)"}
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "reg_address_street",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "reg_address_street",
+          "text": "What is your street address?",
+          "instructions": "E.g., 123 Main Street",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "defaultNextQuestionId": "reg_address_city",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_address_city",
+          "text": "What is your city/town?",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "defaultNextQuestionId": "reg_address_postcode",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_address_postcode",
+          "text": "What is your postcode/ZIP code?",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "validation": {
+            "maxLength": 10
+          },
+          "defaultNextQuestionId": "reg_phone",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_phone",
+          "text": "What is your phone number?",
+          "instructions": "Include country code if applicable.",
+          "illnessDomain": ["registration"],
+          "inputType": "tel",
+          "isRequired": true,
+          "validation": {
+            "pattern": "^[+]?[0-9]{10,15}$"
+          },
+          "defaultNextQuestionId": "reg_email",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_email",
+          "text": "What is your email address?",
+          "illnessDomain": ["registration"],
+          "inputType": "email",
+          "isRequired": true,
+          "validation": {
+            "pattern": "^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          },
+          "defaultNextQuestionId": "journey_medical_start",
+          "gdprSensitivity": "high"
+        }
+      ]
+    },
+    {
+      "questionnaireId": "INITIAL_MEDICAL_001",
+      "title": "Initial Medical Consultation",
+      "description": "Basic questions about your current health concern.",
+      "version": "1.0.0",
+      "illnessDomains": ["general", "triage"],
+      "questions": [
+        {
+          "id": "med_q1_onset",
+          "text": "When did you start to feel ill?",
+          "instructions": "Please provide the approximate date.",
+          "illnessDomain": ["general", "triage"],
+          "inputType": "date",
+          "isRequired": true,
+          "validation": {
+            "allowFutureDates": false
+          },
+          "defaultNextQuestionId": "med_q2_recurrence",
+          "aiPromptHint": "Symptom onset date, crucial for acuity assessment.",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "med_q2_recurrence",
+          "text": "Has this happened before?",
+          "illnessDomain": ["general", "triage"],
+          "inputType": "radio",
+          "options": [
+            {"value": "yes_similar", "label": "Yes, I've had these exact symptoms before"},
+            {"value": "yes_different", "label": "Yes, I've felt ill like this, but symptoms were different"},
+            {"value": "no", "label": "No, this is the first time"},
+            {"value": "unsure", "label": "I'm not sure"}
+          ],
+          "isRequired": true,
+          "aiPromptHint": "Recurrence of symptoms, indicates potential chronic condition or pattern.",
+          "defaultNextQuestionId": "med_q3_location_pain",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "med_q3_location_pain",
+          "text": "Where does it hurt or feel uncomfortable?",
+          "instructions": "Please describe the primary location(s) of your symptoms. You can list multiple if needed.",
+          "illnessDomain": ["general", "triage"],
+          "inputType": "textArea",
+          "isRequired": true,
+          "validation": {
+            "minLength": 5,
+            "maxLength": 500
+          },
+          "aiPromptHint": "Location of pain/discomfort, key for differential diagnosis.",
+          "defaultNextQuestionId": "END_OF_INITIAL_MEDICAL",
+          "gdprSensitivity": "high"
+        }
+      ]
+    },
+    {
+      "questionnaireId": "DERM_CONSULT_001",
+      "title": "Dermatology Consultation - Initial Assessment",
+      "description": "A series of questions to help understand your skin condition.",
+      "version": "1.0.0",
+      "illnessDomains": ["dermatology"],
+      "questions": [
+        {
+          "id": "derm_a1_onset_date",
+          "text": "You mentioned you have a skin problem. Could you tell me when you first noticed it?",
+          "inputType": "date",
+          "isRequired": true,
+          "validation": {
+            "allowFutureDates": false
+          },
+          "defaultNextQuestionId": "derm_a2_duration",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_a2_duration",
+          "text": "How long has this specific skin issue been present?",
+          "inputType": "dropdown",
+          "options": [
+            { "value": "less_than_day", "label": "Less than a day" },
+            { "value": "few_days", "label": "A few days" },
+            { "value": "about_week", "label": "About a week" },
+            { "value": "few_weeks_1_4", "label": "A few weeks (1-4 weeks)" },
+            { "value": "one_to_three_months", "label": "1-3 months" },
+            { "value": "three_to_six_months", "label": "3-6 months" },
+            { "value": "six_to_twelve_months", "label": "6-12 months" },
+            { "value": "one_to_two_years", "label": "1-2 years" },
+            { "value": "more_than_two_years", "label": "More than 2 years" },
+            { "value": "unsure", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_a3_onset_manner",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_a3_onset_manner",
+          "text": "How did it start?",
+          "instructions": "For example, did it appear suddenly, or did it develop gradually?",
+          "inputType": "radio",
+          "options": [
+            { "value": "sudden", "label": "It appeared suddenly" },
+            { "value": "gradual", "label": "It developed gradually" },
+            { "value": "unsure", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_a4_initial_look_feel",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_a4_initial_look_feel",
+          "text": "What did it look or feel like when you first noticed it?",
+          "inputType": "textArea",
+          "isRequired": true,
+          "validation": { "maxLength": 1000 },
+          "defaultNextQuestionId": "derm_a5_circumstances_at_onset",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_a5_circumstances_at_onset",
+          "text": "Were there any specific circumstances or events that you recall around the time it started?",
+          "instructions": "E.g., new medication, illness, travel, new product use, stress.",
+          "inputType": "textArea",
+          "isRequired": false,
+          "validation": { "maxLength": 1000 },
+          "defaultNextQuestionId": "derm_b1_initial_location",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_b1_initial_location",
+          "text": "Where on your body did the skin problem first appear?",
+          "inputType": "textInput",
+          "validation": { "maxLength": 200 },
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_b2_current_location",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_b2_current_location",
+          "text": "Where is it located now? Please describe all currently affected areas.",
+          "inputType": "textArea",
+          "validation": { "maxLength": 1000 },
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_b3_laterality_symmetry",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_b3_laterality_symmetry",
+          "text": "Regarding its location, is the skin problem:",
+          "inputType": "radio",
+          "options": [
+            { "value": "one_side_only", "label": "On one side of my body only (unilateral)" },
+            { "value": "both_sides_symmetrical", "label": "On both sides, appearing roughly the same on each side (symmetrical)" },
+            { "value": "both_sides_asymmetrical", "label": "On both sides, but appearing differently or in different places on each side (asymmetrical)" },
+            { "value": "central", "label": "Mainly in the center of my body/face" },
+            { "value": "unsure_not_applicable", "label": "Unsure / Not applicable" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_b4_spread_ever",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_b4_spread_ever",
+          "text": "Has it spread since it started?",
+          "inputType": "radio",
+          "options": [
+            { "value": "yes_spread", "label": "Yes, it has spread" },
+            { "value": "no_spread", "label": "No, it has stayed in the same place(s)" },
+            { "value": "shrunk", "label": "It has actually gotten smaller or reduced in area" },
+            { "value": "unsure", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_b5_specific_sites",
+          "branchingLogic": [
+            { 
+              "condition": {"type": "equals", "answerValue": "yes_spread"}, 
+              "nextQuestionId": "derm_b4a_how_spread" 
+            }
+          ],
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_b4a_how_spread",
+          "text": "How did it spread?",
+          "instructions": "E.g., outwards from the first spot, new spots appearing elsewhere, in a line.",
+          "inputType": "dropdown",
+          "options": [
+            { "value": "outwards_from_first", "label": "Outwards from the first spot(s) (centrifugal)" },
+            { "value": "new_spots_elsewhere", "label": "New spots appearing in different places (disseminated)" },
+            { "value": "in_a_line", "label": "In a line or streak (linear)" },
+            { "value": "along_skin_trauma", "label": "Along lines of scratches or injury (Koebner phenomenon)" },
+            { "value": "other_spread", "label": "Other pattern of spread" },
+            { "value": "unsure_spread_pattern", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_b5_specific_sites",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_b5_specific_sites",
+          "text": "Does the skin problem affect any of these specific types of sites? (Select all that apply)",
+          "inputType": "checkbox",
+          "options": [
+            { "value": "skin_folds", "label": "Skin folds (e.g., armpits, groin, under breasts, between fingers/toes)" },
+            { "value": "sun_exposed", "label": "Areas usually exposed to sun (e.g., face, neck, back of hands, forearms)" },
+            { "value": "scalp", "label": "Scalp" },
+            { "value": "palms_soles", "label": "Palms of hands and/or soles of feet" },
+            { "value": "mucous_membranes", "label": "Mucous membranes (e.g., inside mouth, lips, genital area)" },
+            { "value": "extensor_surfaces", "label": "Outer surfaces of joints (e.g., elbows, knees)" },
+            { "value": "flexural_surfaces", "label": "Inner surfaces of joints / flexures (e.g., inner elbows, behind knees)" },
+            { "value": "face_butterfly", "label": "Face, particularly a 'butterfly' rash pattern (across cheeks and nose)" },
+            { "value": "face_central", "label": "Face, particularly central areas (cheeks, nose, chin, forehead)" },
+            { "value": "dermatomal_stripe", "label": "In a strip or band on one side of the body (dermatomal)" },
+            { "value": "none_of_these_specific", "label": "None of these specific site types seem to primarily apply" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_c1_appearance_change_over_time",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_c1_appearance_change_over_time",
+          "text": "Has the appearance of the skin problem changed over time?",
+          "inputType": "radio",
+          "options": [
+            { "value": "yes_changed", "label": "Yes, its appearance has changed" },
+            { "value": "no_stayed_same", "label": "No, it has looked mostly the same since it started" },
+            { "value": "unsure_change", "label": "Unsure / Too early to tell" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_c2_lesion_attribute_changes",
+          "branchingLogic": [
+            { 
+              "condition": {"type": "equals", "answerValue": "yes_changed"}, 
+              "nextQuestionId": "derm_c1a_how_changed" 
+            }
+          ],
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_c1a_how_changed",
+          "text": "How has its appearance changed over time?",
+          "inputType": "textArea",
+          "isRequired": true,
+          "validation": { "maxLength": 1000 },
+          "defaultNextQuestionId": "derm_c2_lesion_attribute_changes",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_c2_lesion_attribute_changes",
+          "text": "Have the individual spots or lesions themselves changed in any of these ways? (Select all that apply)",
+          "inputType": "checkbox",
+          "options": [
+            { "value": "size_change", "label": "Changed in size (got bigger or smaller)" },
+            { "value": "shape_change", "label": "Changed in shape" },
+            { "value": "color_change", "label": "Changed in color" },
+            { "value": "texture_change", "label": "Changed in texture (e.g., became rougher, smoother, scalier)" },
+            { "value": "new_symptoms_in_lesion", "label": "Developed new symptoms like itching or pain within the lesion" },
+            { "value": "no_significant_changes_in_lesions", "label": "No significant changes to individual spots/lesions" },
+            { "value": "unsure_lesion_changes", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_c3_constancy",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_c3_constancy",
+          "text": "Is the condition constant, or does it seem to come and go (episodic)?",
+          "inputType": "radio",
+          "options": [
+            { "value": "constant", "label": "It's always present (constant)" },
+            { "value": "comes_and_goes", "label": "It comes and goes (episodic / relapsing-remitting)" },
+            { "value": "too_new_to_tell_constancy", "label": "It's too new to tell if it will come and go" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_c5_overall_progression",
+          "branchingLogic": [
+            { 
+              "condition": {"type": "equals", "answerValue": "comes_and_goes"}, 
+              "nextQuestionId": "derm_c4_episode_duration" 
+            }
+          ],
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_c4_episode_duration",
+          "text": "When an episode occurs (when the skin problem 'comes'), how long does it typically last?",
+          "inputType": "dropdown",
+          "options": [
+            { "value": "hours", "label": "Hours" },
+            { "value": "a_day_or_two", "label": "A day or two" },
+            { "value": "several_days", "label": "Several days" },
+            { "value": "one_to_two_weeks", "label": "1-2 weeks" },
+            { "value": "several_weeks", "label": "Several weeks" },
+            { "value": "months_episode", "label": "Months" },
+            { "value": "variable_episode_duration", "label": "It's very variable" },
+            { "value": "unsure_episode_duration", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_c4a_period_between",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_c4a_period_between",
+          "text": "And how long are the periods in between, when you are relatively clear of the skin problem?",
+          "inputType": "dropdown",
+          "options": [
+            { "value": "no_clear_period", "label": "I'm never fully clear" },
+            { "value": "days_clear", "label": "Days" },
+            { "value": "weeks_clear", "label": "Weeks" },
+            { "value": "months_clear", "label": "Months" },
+            { "value": "years_clear", "label": "Years" },
+            { "value": "variable_clear_period", "label": "It's very variable" },
+            { "value": "unsure_clear_period", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_c5_overall_progression",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_c5_overall_progression",
+          "text": "Overall, currently, would you say the condition is getting better, worse, or staying about the same?",
+          "inputType": "radio",
+          "options": [
+            { "value": "better", "label": "Getting better" },
+            { "value": "worse", "label": "Getting worse" },
+            { "value": "same", "label": "Staying about the same" },
+            { "value": "fluctuating", "label": "Fluctuating (sometimes better, sometimes worse)" },
+            { "value": "unsure_too_new_progression", "label": "Unsure / Too new to tell" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d1_lesion_type_description",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_d1_lesion_type_description",
+          "text": "Please describe what the main skin changes (lesions) look like. Select all that apply or seem most prominent.",
+          "inputType": "checkbox",
+          "options": [
+            { "value": "flat_spots_macules_patches", "label": "Flat spots or discolored areas" },
+            { "value": "raised_bumps_papules_plaques", "label": "Solid raised bumps or larger flat-topped raised areas" },
+            { "value": "fluid_filled_blisters_vesicles_bullae", "label": "Fluid-filled blisters (small or large)" },
+            { "value": "pus_filled_bumps_pustules", "label": "Pus-filled bumps" },
+            { "value": "scaly_patches", "label": "Scaly patches (flaking skin)" },
+            { "value": "crusts", "label": "Crusted areas (dried discharge)" },
+            { "value": "ulcers_open_sores", "label": "Open sores or ulcers" },
+            { "value": "warty_lumps", "label": "Warty or very rough lumps" },
+            { "value": "oozing_areas", "label": "Oozing areas" },
+            { "value": "thickened_skin_lichenification", "label": "Thickened, leathery skin" },
+            { "value": "thin_fragile_skin_atrophy", "label": "Thinned, fragile-looking skin" },
+            { "value": "other_lesion_type", "label": "Something else not listed" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d2_lesion_color",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_d2_lesion_color",
+          "text": "What is the main color of the skin changes/lesions? (Select primary color or all that apply)",
+          "inputType": "checkbox",
+          "options": [
+            { "value": "red_erythematous", "label": "Red / Reddish" },
+            { "value": "pink", "label": "Pink" },
+            { "value": "brown_dark_brown", "label": "Brown / Dark Brown" },
+            { "value": "black", "label": "Black" },
+            { "value": "purple_violaceous", "label": "Purple / Violet-ish" },
+            { "value": "white_hypopigmented", "label": "White / Lighter than your normal skin tone" },
+            { "value": "darker_than_skin_hyperpigmented", "label": "Darker than your normal skin tone" },
+            { "value": "skin_colored_flesh_colored", "label": "Skin-colored / Flesh-colored" },
+            { "value": "yellow_xanthomatous", "label": "Yellow / Yellowish" },
+            { "value": "silvery_white_if_scaly", "label": "Silvery-white (especially if scaly)" },
+            { "value": "blue_gray", "label": "Blue / Gray" },
+            { "value": "variable_multiple_colors_in_lesion", "label": "Variable / Multiple colors present within one lesion" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d3_lesion_shape",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_d3_lesion_shape",
+          "text": "What is the typical shape of the individual lesions? (Select primary shape or all that apply)",
+          "inputType": "checkbox",
+          "options": [
+            { "value": "round_circular_nummular", "label": "Round / Circular / Coin-shaped" },
+            { "value": "oval", "label": "Oval" },
+            { "value": "irregular_asymmetrical", "label": "Irregular / Asymmetrical shape" },
+            { "value": "ring_shaped_annular", "label": "Ring-shaped (often with central clearing)" },
+            { "value": "target_like_iris", "label": "Target-like / Bull's-eye shape" },
+            { "value": "linear_streak_like", "label": "Linear / In a line or streak" },
+            { "value": "arcuate_curved", "label": "Arcuate / Curved or bow-shaped" },
+            { "value": "grouped_clustered_herpetiform", "label": "Grouped or clustered together" },
+            { "value": "serpiginous_snake_like", "label": "Serpiginous / Wavy or snake-like" },
+            { "value": "umbilicated_central_dimple", "label": "Umbilicated (with a central dimple or depression)" },
+            { "value": "polygonal_many_sided", "label": "Polygonal (many-sided with flat tops)" },
+            { "value": "other_shape_describe", "label": "Other shape not listed" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d4_lesion_size",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_d4_lesion_size",
+          "text": "Approximately what is the size of a typical individual spot/lesion?",
+          "inputType": "dropdown",
+          "options": [
+            { "value": "pinhead_under_2mm", "label": "Pinhead size (less than 1-2 mm)" },
+            { "value": "lentil_pea_sized_2_5mm", "label": "Lentil or Pea-sized (around 2-5 mm)" },
+            { "value": "coin_sized_0.5_3cm", "label": "Coin-sized (e.g., dime, penny, quarter; 0.5 cm to 3 cm)" },
+            { "value": "larger_than_coin_3cm_plus", "label": "Larger than a large coin (more than 3 cm)" },
+            { "value": "forms_large_patches_confluent", "label": "Many small ones that merge into large patches (confluent)" },
+            { "value": "variable_sizes_present", "label": "Very variable in size / Multiple sizes present" },
+            { "value": "unsure_hard_to_describe_size", "label": "Unsure / Hard to describe size" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d5_lesion_texture",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_d5_lesion_texture",
+          "text": "What is the surface texture of the lesions like? (Select all that apply)",
+          "inputType": "checkbox",
+          "options": [
+            { "value": "smooth", "label": "Smooth" },
+            { "value": "rough_keratotic_sandpaper", "label": "Rough / Feels like sandpaper (Keratotic)" },
+            { "value": "scaly_flaky", "label": "Scaly / Flaky" },
+            { "value": "warty_verrucous", "label": "Warty / Verrucous (like a wart)" },
+            { "value": "crusted_dried_fluid", "label": "Crusted (covered with dried fluid, e.g., honey-colored, bloody)" },
+            { "value": "oozing_weeping_fluid", "label": "Oozing / Weeping clear or yellowish fluid" },
+            { "value": "bleeds_easily", "label": "Bleeds easily (e.g., with minor rubbing)" },
+            { "value": "ulcerated_open_sore_texture", "label": "Ulcerated / An open sore" },
+            { "value": "bumpy_pebbly_mammillated", "label": "Bumpy / Pebbly / Mammillated" },
+            { "value": "indurated_firm_to_touch", "label": "Indurated / Firm or hard to the touch" },
+            { "value": "soft_boggy_to_touch", "label": "Soft / Boggy or doughy to the touch" },
+            { "value": "velvety_texture", "label": "Velvety" },
+            { "value": "atrophic_thinned_depressed", "label": "Atrophic / Thinned or depressed, like a scar" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d6_lesion_borders",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "derm_d6_lesion_borders",
+          "text": "Are the edges (borders) of the lesions typically:",
+          "inputType": "radio",
+          "options": [
+            { "value": "well_defined_distinct_borders", "label": "Well-defined and distinct from normal skin" },
+            { "value": "ill_defined_blends_into_skin", "label": "Ill-defined, blending gradually into the surrounding normal skin" },
+            { "value": "raised_border_active_edge", "label": "Raised border / Active edge (e.g., with central clearing)" },
+            { "value": "irregular_notched_border", "label": "Irregular or notched border" },
+            { "value": "unsure_hard_to_tell_borders", "label": "Unsure / Hard to tell" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d7_lesion_number",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_d7_lesion_number",
+          "text": "Roughly how many distinct spots/lesions are there?",
+          "inputType": "dropdown",
+          "options": [
+            { "value": "single_one_lesion", "label": "Just one single lesion" },
+            { "value": "few_2_5_lesions", "label": "A few (2-5 lesions)" },
+            { "value": "several_6_20_lesions", "label": "Several (6-20 lesions)" },
+            { "value": "many_21_50_lesions", "label": "Many (21-50 lesions)" },
+            { "value": "very_many_50_plus_lesions", "label": "Very many (more than 50 lesions)" },
+            { "value": "too_many_to_count_widespread_lesions", "label": "Too many to count / Widespread" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "derm_d8_lesion_similarity",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "derm_d8_lesion_similarity",
+          "text": "Are the lesions all similar in appearance, or are there different types/stages of lesions present at the same time?",
+          "inputType": "radio",
+          "options": [
+            { "value": "all_similar_monomorphic", "label": "All lesions look pretty much the same (monomorphic)" },
+            { "value": "different_types_polymorphic", "label": "There are different types or stages of lesions present at the same time (polymorphic)" },
+            { "value": "unsure_similarity_of_lesions", "label": "Unsure" }
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "END_DERM_CONSULT_001", 
+          "gdprSensitivity": "medium"
+        }
+      ]
+    }
+  ]
+}

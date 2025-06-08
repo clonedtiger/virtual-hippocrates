@@ -1,0 +1,10 @@
+
+Make sure to start the database
+    brew services start postgres
+
+In the frontend directory:
+    npm start
+
+In the backend directory:
+    source venv/bin/activate
+    python3 app.py

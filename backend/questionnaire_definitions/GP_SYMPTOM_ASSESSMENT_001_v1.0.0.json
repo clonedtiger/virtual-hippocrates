@@ -1,0 +1,812 @@
+{
+  "questionnaireId": "GP_SYMPTOM_ASSESSMENT_001",
+  "version": "1.0.0",
+  "title": "GP Symptom Assessment: Questions and Next Steps",
+  "description": "A series of questions to help understand common symptoms. This tool is a thought experiment and not for real-world medical use. It does not replace professional medical advice. If you are unwell, you should always seek advice from a qualified healthcare professional. The initial section on Universal Emergency Signs should be reviewed first; if any of those signs are present, emergency help should be sought immediately.",
+  "illnessDomains": ["general_practice", "triage"],
+  "questions": [
+    {
+      "id": "gp_initial_q1_age",
+      "text": "How old is the person with the symptoms?",
+      "inputType": "textInput",
+      "validation": { "maxLength": 3 },
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_initial_q2_long_term_conditions",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_initial_q2_long_term_conditions",
+      "text": "Does the person have any long-term health conditions?",
+      "instructions": "For example, diabetes, heart problems, asthma or other lung conditions, kidney problems, or a condition that weakens their immune system (like HIV, or if they are having treatment like chemotherapy).",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_initial_q3_pregnancy_check",
+      "branchingLogic": [
+        { 
+          "condition": {"type": "equals", "answerValue": "yes"}, 
+          "nextQuestionId": "gp_initial_q2a_long_term_conditions_details" 
+        }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_initial_q2a_long_term_conditions_details",
+      "text": "Please list the long-term health conditions.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_initial_q3_pregnancy_check",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_initial_q3_pregnancy_check",
+      "text": "Is there any chance the person could be pregnant?",
+      "instructions": "This question is relevant for females of an age where they could become pregnant.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" },
+        { "value": "unsure", "label": "Unsure" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_initial_q4_medicines",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_initial_q4_medicines",
+      "text": "Is the person currently taking any regular medicines?",
+      "instructions": "This includes medicines from a doctor, anything bought from a pharmacy or shop (like painkillers), or any herbal remedies or supplements.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_pathway_selection",
+      "branchingLogic": [
+        { 
+          "condition": {"type": "equals", "answerValue": "yes"}, 
+          "nextQuestionId": "gp_initial_q4a_medicines_details" 
+        }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_initial_q4a_medicines_details",
+      "text": "Please list the current medicines, supplements, or remedies.",
+      "inputType": "textArea",
+      "validation": { "maxLength": 1000 },
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_pathway_selection",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_pathway_selection",
+      "text": "Please choose the pathway that best fits the main problem:",
+      "inputType": "radio",
+      "options": [
+        { "value": "headache", "label": "Headache" },
+        { "value": "cough", "label": "Cough" },
+        { "value": "tummy_pain", "label": "Tummy (Abdominal) Pain" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": null,
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "headache"}, "nextQuestionId": "gp_headache_q_h1_thunderclap" },
+        { "condition": {"type": "equals", "answerValue": "cough"}, "nextQuestionId": "gp_cough_q_c1_blood" },
+        { "condition": {"type": "equals", "answerValue": "tummy_pain"}, "nextQuestionId": "gp_tummy_q_ap1_sudden_severe" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_headache_q_h1_thunderclap",
+      "text": "Did the headache come on very suddenly, like being hit on the head (a 'thunderclap' headache), and reach its worst pain within a few minutes?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h2_focal_neuro",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_headache_q_h2_focal_neuro",
+      "text": "With the headache, are you also experiencing any of these for the first time, or are they much worse than usual for you? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "weakness", "label": "New weakness on one side of your face, arm, or leg" },
+        { "value": "numbness", "label": "New numbness or pins and needles on one side of your body" },
+        { "value": "vision", "label": "New problems with your vision (not like your usual migraine aura)" },
+        { "value": "speech", "label": "New difficulty speaking or understanding what people are saying" },
+        { "value": "balance", "label": "New problems with your balance or coordination, making you clumsy" },
+        { "value": "none", "label": "None of these" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h3_meningitis_signs",
+      "branchingLogic": [
+        { "condition": {"type": "not_equals", "answerValue": "none"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_headache_q_h3_meningitis_signs",
+        "text": "Along with the headache, do you also have any of the following symptoms?",
+        "inputType": "checkbox",
+        "options": [
+            { "value": "fever", "label": "A high temperature (fever)" },
+            { "value": "stiff_neck", "label": "A stiff neck (you can't bend your chin to your chest)" },
+            { "value": "rash", "label": "A rash that doesn't fade when you press a glass against it" },
+            { "value": "photophobia", "label": "A severe dislike of bright lights (photophobia)" },
+            { "value": "drowsy_confused", "label": "Feeling very sleepy or confused" },
+            { "value": "none", "label": "None of these" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_headache_q_h4_over_50",
+        "branchingLogic": [
+            { "condition": {"type": "and", "clauses": [
+                {"type": "contains", "answerValue": "stiff_neck"},
+                {"type": "or", "clauses": [
+                    {"type": "contains", "answerValue": "fever"},
+                    {"type": "contains", "answerValue": "rash"},
+                    {"type": "contains", "answerValue": "photophobia"},
+                    {"type": "contains", "answerValue": "drowsy_confused"}
+                ]}
+            ]}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" },
+            { "condition": {"type": "and", "clauses": [
+                {"type": "not_contains", "answerValue": "stiff_neck"},
+                {"type": "contains", "answerValue": "fever"}
+            ]}, "nextQuestionId": "gp_headache_q_h4_over_50" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_headache_q_h4_over_50",
+        "text": "Are you over 50 years old, AND is this a new type of headache for you, or a headache that is steadily getting worse over days or weeks?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No / Not applicable (under 50)" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_headache_q_h5_head_injury",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_URGENT" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_headache_q_h5_head_injury",
+        "text": "Have you had any significant head injury in the last 3 months?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_headache_q_h6_postural",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_URGENT_OR_111" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_headache_q_h6_postural",
+        "text": "Is the headache much worse when you sit or stand up, and does it get a lot better when you lie down flat?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_headache_q_h7_cough_strain",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_SEE_GP" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_headache_q_h7_cough_strain",
+        "text": "Is the headache mainly triggered or made much worse by coughing, sneezing, straining (like on the toilet), or by exercise?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_headache_q_h8_cancer_immune",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_SEE_GP" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_headache_q_h8_cancer_immune",
+        "text": "Do you have a history of cancer, OR a weakened immune system (for example, due to HIV or taking medicines like steroids or chemotherapy), AND is this a new headache that won't go away, or is it getting worse?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_headache_q_h9_type",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_URGENT" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_headache_q_h9_type",
+      "text": "Now, let's think about what the headache itself feels like. Which of these sounds most like your headache?",
+      "inputType": "radio",
+      "options": [
+        { "value": "tension", "label": "It's more like a pressure, a tightness, or a band around your head, often on both sides. The pain is usually mild to moderate." },
+        { "value": "migraine", "label": "It's more of a throbbing or pulsating pain, often on one side of your head (but can be both). The pain is often moderate to severe." },
+        { "value": "other", "label": "Neither sounds quite right / It's a different kind of pain (e.g., extremely severe, sharp, around one eye)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": null,
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "tension"}, "nextQuestionId": "gp_headache_q_h10_tension_disabling" },
+        { "condition": {"type": "equals", "answerValue": "migraine"}, "nextQuestionId": "gp_headache_q_h11_migraine_assoc" },
+        { "condition": {"type": "equals", "answerValue": "other"}, "nextQuestionId": "gp_headache_q_h14_cluster" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_headache_q_h10_tension_disabling",
+      "text": "Does this headache usually stop you from doing your normal daily activities?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes, it often stops me" },
+        { "value": "no", "label": "No, I can usually carry on" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h15_frequency_meds",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_headache_q_h11_migraine_assoc",
+      "text": "With these headaches, do you also often feel sick (nausea) or are you actually sick (vomiting)? Do you find that bright lights or loud sounds make the headache feel much worse?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes to one or both" },
+        { "value": "no", "label": "No to both" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h15_frequency_meds",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "gp_headache_q_h12_migraine_aura" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_headache_q_h12_migraine_aura",
+      "text": "Do you sometimes get warning symptoms BEFORE the main headache starts? (e.g., seeing flashing lights, zig-zag lines, or blind spots; feeling numbness or pins and needles in your hand, arm, or face; having difficulty speaking)",
+      "instructions": "These warning symptoms usually last from 5 minutes to an hour and go away before or as the headache starts.",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes, I get some of these warning symptoms" },
+        { "value": "no", "label": "No, I don't get these warning symptoms" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h13_migraine_duration",
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_headache_q_h13_migraine_duration",
+      "text": "How long do these headaches usually last if you don't take any specific migraine treatment for them?",
+      "inputType": "radio",
+      "options": [
+        { "value": "typical", "label": "Usually between 4 hours and 3 days" },
+        { "value": "atypical", "label": "Much shorter (e.g., less than 4 hours) or much longer (e.g., more than 3 days continuously)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h15_frequency_meds",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_headache_q_h14_cluster",
+      "text": "Is the headache extremely severe, usually on one side of your head (often around or behind one eye), and does it come with any of these on the SAME side as the pain: a red or watery eye; a runny or blocked nostril; a droopy or swollen eyelid; sweating on your forehead or face? Do you feel very restless or agitated during these attacks?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes, this sounds exactly like my headaches" },
+        { "value": "no", "label": "No, this doesn't sound like my headaches" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h15_frequency_meds",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_URGENT" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_headache_q_h15_frequency_meds",
+      "text": "Thinking about ALL types of headaches you get, on average, how many days in a month do you get a headache?",
+      "inputType": "textInput",
+      "validation": { "maxLength": 3 },
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_headache_q_h15a_meds_days",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_headache_q_h15a_meds_days",
+      "text": "And on average, how many days in a month do you take ANY painkillers (like paracetamol, ibuprofen) or specific migraine medicines (like triptans) FOR headaches?",
+      "inputType": "textInput",
+      "validation": { "maxLength": 3 },
+      "isRequired": true,
+      "defaultNextQuestionId": "OUTCOME_HEADACHE_FINAL_ADVICE",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_cough_q_c1_blood",
+      "text": "Are you (or is the child) coughing up any blood? Even if it's just a small amount or streaks in the phlegm?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes_large_amount", "label": "Yes, a large amount or repeatedly" },
+        { "value": "yes_small_amount", "label": "Yes, just a tiny speck once or twice" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c2_severe_symptoms",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes_large_amount"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_cough_q_c2_severe_symptoms",
+      "text": "Are you (or the child) experiencing any of these: severe chest pain (especially when breathing in); feeling very confused or dizzy; becoming much more short of breath than usual, or breathing very fast, even when resting?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c3_child_breathing",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_URGENT_OR_111" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_cough_q_c3_child_breathing",
+      "text": "(For babies and young children) Is the child's skin/lips looking pale, blue, or grey? Are they making grunting noises when breathing out, or is their tummy sucking in hard under their ribs? Are they very floppy, or much sleepier than usual and hard to wake up?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes to any of these" },
+        { "value": "no", "label": "No / Not applicable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c4_baby_fever",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_cough_q_c4_baby_fever",
+      "text": "(For babies under 3 months old) Does the baby have a temperature of 38°C or higher, OR a temperature of 36°C or lower (and they haven't had a vaccination in the last 2 days)?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No / Not applicable" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c5_duration",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_cough_q_c5_duration",
+      "text": "How long have you (or the child) had this cough?",
+      "inputType": "radio",
+      "options": [
+        { "value": "acute", "label": "Less than 3 weeks" },
+        { "value": "persistent", "label": "3 weeks or longer" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c6_type",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_cough_q_c6_type",
+      "text": "What is the cough like?",
+      "inputType": "radio",
+      "options": [
+        { "value": "dry", "label": "Mostly dry and tickly, with no phlegm (mucus)" },
+        { "value": "chesty", "label": "Chesty, meaning you are coughing up phlegm (mucus)" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c7_viral_symptoms",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "chesty"}, "nextQuestionId": "gp_cough_q_c6a_phlegm_details" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_cough_q_c6a_phlegm_details",
+      "text": "If coughing up phlegm, what colour is it usually (e.g., clear, white, yellow, green)? Is there a lot of it?",
+      "inputType": "textArea",
+      "validation": { "maxLength": 500 },
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c7_viral_symptoms",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_cough_q_c7_viral_symptoms",
+      "text": "Along with the cough, do you (or the child) also have any of these symptoms? (Select all that apply)",
+      "inputType": "checkbox",
+      "options": [
+        { "value": "fever", "label": "A high temperature (fever) or feeling hot and shivery" },
+        { "value": "nose", "label": "A runny or blocked nose" },
+        { "value": "throat", "label": "A sore throat" },
+        { "value": "headache", "label": "A headache" },
+        { "value": "aches", "label": "Aching muscles or joints" },
+        { "value": "tiredness", "label": "Feeling tired or exhausted" },
+        { "value": "none", "label": "None of these" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c8_fever_duration",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_cough_q_c8_fever_duration",
+      "text": "If you have a fever, how long has it lasted?",
+      "inputType": "radio",
+      "options": [
+        { "value": "long_fever", "label": "5 days or more, OR it went away and came back" },
+        { "value": "short_fever", "label": "Less than 5 days" },
+        { "value": "no_fever", "label": "I do not have a fever" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c9_weight_loss",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "long_fever"}, "nextQuestionId": "OUTCOME_GP_OR_111" }
+      ],
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_cough_q_c9_weight_loss",
+      "text": "Are you (or the adult with the cough) losing weight without trying to?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_cough_q_c10_smoker",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_SEE_GP" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_cough_q_c10_smoker",
+      "text": "Do you (or the adult with the cough) smoke cigarettes or use other tobacco products, or have you smoked heavily in the past?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "OUTCOME_COUGH_FINAL_ADVICE",
+      "gdprSensitivity": "medium"
+    },
+    {
+      "id": "gp_tummy_q_ap1_sudden_severe",
+      "text": "Did the tummy pain come on very suddenly AND is it extremely severe, perhaps the worst pain you've ever felt ('agonising')?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap2_rigid_tummy",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap2_rigid_tummy",
+      "text": "Does it hurt a lot when you gently press on your tummy? Is your tummy very hard or rigid (like a board), or very swollen and tender all over?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap3_vomiting_blood",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap3_vomiting_blood",
+      "text": "Are you vomiting any blood? (This might be bright red blood, or it might look like dark brown coffee grounds).",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap4_bloody_stool",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap4_bloody_stool",
+      "text": "Is your poo (stools) bloody? Or is it black, sticky, and extremely smelly (like tar)?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap5_unable_to_pass",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap5_unable_to_pass",
+      "text": "Are you completely unable to pass any urine (pee) at all? OR are you completely unable to poo or pass any wind (fart) when you normally would be able to?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes to either" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap6_fever_faint",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap6_fever_faint",
+      "text": "Along with the tummy pain, do you also have a high fever and feel shivery? Or do you feel very faint, like you might collapse, or have you actually collapsed?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap7_pregnancy_pain",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap7_pregnancy_pain",
+      "text": "Is there any chance you could be pregnant AND you are having severe tummy pain, especially if it's low down on one side?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes, could be pregnant AND have severe tummy pain" },
+        { "value": "no", "label": "No / Not applicable / Not severe pain" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap8_radiating_pain",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GO_TO_A_AND_E" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+      "id": "gp_tummy_q_ap8_radiating_pain",
+      "text": "Does the pain spread from your tummy through to your back, or up to the tip of your shoulder?",
+      "inputType": "radio",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ],
+      "isRequired": true,
+      "defaultNextQuestionId": "gp_tummy_q_ap9_location",
+      "branchingLogic": [
+        { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_URGENT_OR_111" }
+      ],
+      "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap9_location",
+        "text": "Where exactly in your tummy is the pain?",
+        "inputType": "textInput",
+        "validation": { "maxLength": 500 },
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap10_character",
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap10_character",
+        "text": "What does the pain feel like?",
+        "inputType": "radio",
+        "options": [
+            { "value": "sharp_stabbing", "label": "Sharp or stabbing" },
+            { "value": "dull_ache", "label": "Dull ache" },
+            { "value": "crampy_colicky", "label": "Crampy or colicky (comes in waves)" },
+            { "value": "burning", "label": "Burning" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap11_duration",
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap11_duration",
+        "text": "How long have you had this tummy pain? Is it a new pain or a recurring/long-term problem?",
+        "inputType": "radio",
+        "options": [
+            { "value": "new", "label": "New pain (started in the last few days)" },
+            { "value": "recurring", "label": "Recurring or long-term pain" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap12_vomiting",
+        "gdprSensitivity": "medium"
+    },
+    {
+        "id": "gp_tummy_q_ap12_vomiting",
+        "text": "Are you feeling sick (nausea) or have you actually been vomiting (apart from any blood)?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap13_bowel_habits",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "gp_tummy_q_ap12a_vomiting_details" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap12a_vomiting_details",
+        "text": "How many times have you been sick, and for how long? Are you able to keep any fluids down?",
+        "inputType": "textArea",
+        "validation": { "maxLength": 500 },
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap13_bowel_habits",
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap13_bowel_habits",
+        "text": "Have your bowel habits changed recently?",
+        "inputType": "radio",
+        "options": [
+            { "value": "diarrhoea", "label": "Yes, I have diarrhoea (runny/watery poo)" },
+            { "value": "constipated", "label": "Yes, I am constipated (hard to poo/less often)" },
+            { "value": "no_change", "label": "No change in bowel habits" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap14_urinary_symptoms",
+        "gdprSensitivity": "medium"
+    },
+    {
+        "id": "gp_tummy_q_ap14_urinary_symptoms",
+        "text": "Do you have any pain or a burning feeling when you pee? Are you needing to pee much more often than usual, or finding it hard to pee properly?",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap15_weight_loss",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_GP_OR_111" }
+        ],
+        "gdprSensitivity": "medium"
+    },
+    {
+        "id": "gp_tummy_q_ap15_weight_loss",
+        "text": "Are you losing weight without trying to?",
+        "instructions": "This is more relevant for ongoing or recurrent tummy pain.",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap16_swallowing",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_SEE_GP" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap16_swallowing",
+        "text": "Do you have any problems swallowing your food, or does food feel like it's getting stuck?",
+        "instructions": "This is more relevant for ongoing upper tummy pain.",
+        "inputType": "radio",
+        "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "gp_tummy_q_ap17_female_symptoms",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "yes"}, "nextQuestionId": "OUTCOME_SEE_GP" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "gp_tummy_q_ap17_female_symptoms",
+        "text": "(For females) Is the tummy pain clearly related to your monthly periods? OR, are you having any unusual bleeding from your vagina, or an unusual vaginal discharge along with the pain?",
+        "inputType": "radio",
+        "options": [
+            { "value": "typical_period_pain", "label": "Yes, it seems like typical period pain" },
+            { "value": "severe_or_unusual_pain", "label": "Yes, but it's much more severe than usual, OR there is unusual bleeding/discharge" },
+            { "value": "no", "label": "No, not related to periods / Not applicable" }
+        ],
+        "isRequired": true,
+        "defaultNextQuestionId": "OUTCOME_TUMMY_FINAL_ADVICE",
+        "branchingLogic": [
+            { "condition": {"type": "equals", "answerValue": "severe_or_unusual_pain"}, "nextQuestionId": "OUTCOME_SEE_GP" }
+        ],
+        "gdprSensitivity": "high"
+    },
+    {
+        "id": "OUTCOME_GO_TO_A_AND_E",
+        "text": "Based on your answers, you should go to A&E straight away or call 999 for an ambulance.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_GP_URGENT",
+        "text": "Based on your answers, you should see your GP urgently (try to get an appointment today or tomorrow).",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_GP_URGENT_OR_111",
+        "text": "Based on your answers, you should contact your GP practice urgently (today or tomorrow) or call NHS 111 for advice.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_GP_OR_111",
+        "text": "Based on your answers, you should contact your GP practice or NHS 111 for advice.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_SEE_GP",
+        "text": "Based on your answers, you should make an appointment to see your GP.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_HEADACHE_FINAL_ADVICE",
+        "text": "Based on your answers, please review the following advice. If your headache is frequent, severe, or you are taking painkillers on 10-15 or more days a month, you should see your GP. Otherwise, you may be able to manage this yourself with self-care.",
+        "instructions": "Self-Care Advice: Rest, drink plenty of water. You can try simple painkillers like paracetamol or ibuprofen (always follow the instructions; do not give aspirin to anyone under 16). Try to identify and avoid any triggers. If headaches become more frequent, worse, or you start needing painkillers many days a month, see your GP.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_COUGH_FINAL_ADVICE",
+        "text": "If your cough has lasted 3 weeks or more, or you are a smoker with a new/changed cough, you should see your GP. Otherwise, for an acute cough with no red flags, you can usually manage this yourself.",
+        "instructions": "Self-Care Advice: Get plenty of rest, drink plenty of fluids. You can try paracetamol or ibuprofen for aches (follow packet instructions). A teaspoon of honey in a warm drink can soothe a cough (do not give to babies under 1). Stay at home if you feel unwell. See a GP if the cough lasts more than 3-4 weeks, you feel much more unwell, or develop new serious symptoms.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    },
+    {
+        "id": "OUTCOME_TUMMY_FINAL_ADVICE",
+        "text": "If you have any red flags, significant vomiting/diarrhoea, urinary symptoms, weight loss, swallowing problems, or concerning gynaecological symptoms, you should seek advice from a GP or NHS 111. For mild, recent-onset symptoms that might be indigestion, a mild tummy bug, or mild constipation, you can often manage these yourself or get advice from a pharmacist.",
+        "instructions": "Self-Care Advice: For indigestion, try antacids. For a tummy bug, drink plenty of fluids in small sips and eat plain foods. For mild constipation, increase fluid and fibre intake. For most mild tummy aches, simple painkillers like paracetamol can be taken. See a GP if pain gets worse, doesn't go away, or you develop any new concerning symptoms.",
+        "inputType": "display",
+        "defaultNextQuestionId": null
+    }
+  ]
+}

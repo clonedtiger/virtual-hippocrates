@@ -1,0 +1,54 @@
+{
+      "questionnaireId": "INITIAL_MEDICAL_001",
+      "title": "Initial Medical Consultation",
+      "description": "Basic questions about your current health concern.",
+      "version": "1.0.0",
+      "illnessDomains": ["general", "triage"],
+      "questions": [
+        {
+          "id": "med_q1_onset",
+          "text": "When did you start to feel ill?",
+          "instructions": "Please provide the approximate date.",
+          "illnessDomain": ["general", "triage"],
+          "inputType": "date",
+          "isRequired": true,
+          "validation": {
+            "allowFutureDates": false
+          },
+          "defaultNextQuestionId": "med_q2_recurrence",
+          "aiPromptHint": "Symptom onset date, crucial for acuity assessment.",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "med_q2_recurrence",
+          "text": "Has this happened before?",
+          "illnessDomain": ["general", "triage"],
+          "inputType": "radio",
+          "options": [
+            {"value": "yes_similar", "label": "Yes, I've had these exact symptoms before"},
+            {"value": "yes_different", "label": "Yes, I've felt ill like this, but symptoms were different"},
+            {"value": "no", "label": "No, this is the first time"},
+            {"value": "unsure", "label": "I'm not sure"}
+          ],
+          "isRequired": true,
+          "aiPromptHint": "Recurrence of symptoms, indicates potential chronic condition or pattern.",
+          "defaultNextQuestionId": "med_q3_location_pain",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "med_q3_location_pain",
+          "text": "Where does it hurt or feel uncomfortable?",
+          "instructions": "Please describe the primary location(s) of your symptoms. You can list multiple if needed.",
+          "illnessDomain": ["general", "triage"],
+          "inputType": "textArea",
+          "isRequired": true,
+          "validation": {
+            "minLength": 5,
+            "maxLength": 500
+          },
+          "aiPromptHint": "Location of pain/discomfort, key for differential diagnosis.",
+          "defaultNextQuestionId": "END_OF_INITIAL_MEDICAL",
+          "gdprSensitivity": "high"
+        }
+      ]
+    }

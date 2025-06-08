@@ -1,0 +1,109 @@
+{
+      "questionnaireId": "PATIENT_REG_001",
+      "title": "Patient Registration Information",
+      "description": "Basic information required for registration.",
+      "version": "1.0.0",
+      "illnessDomains": ["general", "registration"],
+      "questions": [
+        {
+          "id": "reg_name",
+          "text": "What is your full name?",
+          "instructions": "Please enter your full legal name.",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "validation": {
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "defaultNextQuestionId": "reg_age",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_age",
+          "text": "What is your age?",
+          "instructions": "Please enter your age in years.",
+          "illnessDomain": ["registration"],
+          "inputType": "number",
+          "isRequired": true,
+          "validation": {
+            "minValue": 0,
+            "maxValue": 120
+          },
+          "defaultNextQuestionId": "reg_gender",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "reg_gender",
+          "text": "What is your gender?",
+          "illnessDomain": ["registration"],
+          "inputType": "dropdown",
+          "options": [
+            {"value": "male", "label": "Male"},
+            {"value": "female", "label": "Female"},
+            {"value": "non_binary", "label": "Non-binary"},
+            {"value": "prefer_not_to_say", "label": "Prefer not to say"},
+            {"value": "other", "label": "Other (please specify)"}
+          ],
+          "isRequired": true,
+          "defaultNextQuestionId": "reg_address_street",
+          "gdprSensitivity": "medium"
+        },
+        {
+          "id": "reg_address_street",
+          "text": "What is your street address?",
+          "instructions": "E.g., 123 Main Street",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "defaultNextQuestionId": "reg_address_city",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_address_city",
+          "text": "What is your city/town?",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "defaultNextQuestionId": "reg_address_postcode",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_address_postcode",
+          "text": "What is your postcode/ZIP code?",
+          "illnessDomain": ["registration"],
+          "inputType": "textInput",
+          "isRequired": true,
+          "validation": {
+            "maxLength": 10
+          },
+          "defaultNextQuestionId": "reg_phone",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_phone",
+          "text": "What is your phone number?",
+          "instructions": "Include country code if applicable.",
+          "illnessDomain": ["registration"],
+          "inputType": "tel",
+          "isRequired": true,
+          "validation": {
+            "pattern": "^[+]?[0-9]{10,15}$"
+          },
+          "defaultNextQuestionId": "reg_email",
+          "gdprSensitivity": "high"
+        },
+        {
+          "id": "reg_email",
+          "text": "What is your email address?",
+          "illnessDomain": ["registration"],
+          "inputType": "email",
+          "isRequired": true,
+          "validation": {
+            "pattern": "^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+          },
+          "defaultNextQuestionId": "journey_medical_start",
+          "gdprSensitivity": "high"
+        }
+      ]
+    }
