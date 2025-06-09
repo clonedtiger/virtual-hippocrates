@@ -109,12 +109,12 @@ function Questionnaire({ questionnaireKey, questionnaireVersion = null, patientI
     }
   }, [questionnaireKey, questionnaireVersion]);
 
-  const handleAnswerChange = useCallback((questionId, value) => {
+  const handleAnswerChange = (questionId, newAnswer) => {
     setAnswers(prevAnswers => ({
       ...prevAnswers,
-      [questionId]: value,
-    }));
-  }, []);
+      [questionId]: newAnswer,
+   }));
+  };
 
   const findNextQuestion = useCallback((currentQ, currentAnswer) => {
     if (!currentQuestionnaire || !currentQuestionnaire.questions) return null;
